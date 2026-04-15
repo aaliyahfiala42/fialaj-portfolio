@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body class="admin-body">
+    <header class="admin-topbar">
+      <div class="container admin-topbar-inner">
+        <div>
+          <p class="eyebrow">Admin Dashboard</p>
+          <h1>Edit Jennifer’s Portfolio</h1>
+        </div>
+        <div class="button-cluster">
+          <a class="button button-secondary" href="/">View Site</a>
+          <a class="button button-primary" href="/logout">Logout</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="admin-main container">
+      <% if (message) { %>
+        <div class="alert success"><%= message %></div>
+      <% } %>
+      <% if (error) { %>
+        <div class="alert error"><%= error %></div>
+      <% } %>
+
+      <form id="portfolioForm" action="/admin/save" method="post" enctype="multipart/form-data" class="admin-form">
+        <input type="hidden" name="tocJson" id="tocJson" />
+        <input type="hidden" name="educationJson" id="educationJson" />
+        <input type="hidden" name="workExperienceJson" id="workExperienceJson" />
+        <input type="hidden" name="projectsJson" id="projectsJson" />
+        <input type="hidden" name="volunteerWorkJson" id="volunteerWorkJson" />
+        <input type="hidden" name="weeksJson" id="weeksJson" />
+        <input type="hidden" name="photoGalleryJson" id="photoGalleryJson" />
+
+        <section class="admin-card hover-card">
+          <div class="section-heading">
+            <p class="eyebrow">Site Identity</p>
+            <h2>Main content</h2>
+          </div>
+          <div class="admin-grid two-col-form">
+            <label>
+              <span>Name</span>
+              <input type="text" name="ownerName" value="<%= content.site.ownerName %>" />
+            </label>
+            <label>
+              <span>Site Title</span>
+              <input type="text" name="siteTitle" value="<%= content.site.siteTitle %>" />
+            </label>
+            <label>
+              <span>Hero Title</span>
+              <input type="text" name="heroTitle" value="<%= content.site.heroTitle %>" />
+            </label>
+            <label>
+              <span>Tagline</span>
+              <input type="text" name="tagline" value="<%= content.site.tagline %>" />
+            </label>
+            <label>
+              <span>Subtitle</span>
+              <input type="text" name="subtitle" value="<%= content.site.subtitle %>" />
+            </label>
+            <label>
+              <span>Professional Title</span>
+              <input type="text" name="professionalTitle" value="<%= content.site.professionalTitle %>" />
+            </label>
+            <label>
+              <span>Program</span>
+              <input type="text" name="program" value="<%= content.site.program %>" />
+            </label>
+            <label>
+              <span>Footer Note</span>
+              <input type="text" name="footerNote" value="<%= content.site.footerNote %>" />
+            </label>
+          </div>
+        </section>
+
+        <section class="admin-card hover-card">
+          <div class="section-heading">
+            <p class="eyebrow">Contact & Links</p>
+            <h2>Editable contact information</h2>
+          </div>
+          <div class="admin-grid two-col-form">
+            <label>
+              <span>Phone</span>
+              <input type="text" name="phone" value="<%= content.site.phone %>" />
+            </label>
+            <label>
+              <span>Email</span>
+              <input type="email" name="email" value="<%= content.site.email %>" />
+            </label>
+            <label>
+              <span>LinkedIn URL</span>
+              <input type="url" name="linkedinUrl" value="<%= content.site.linkedinUrl %>" />
+            </label>
+            <label>
+              <span>Resume URL</span>
+              <input type="url" name="resumeUrl" value="<%= content.site.resumeUrl %>" />
+            </label>
+            <label>
+              <span>Cover Letter URL</span>
+              <input type="url" name="coverLetterUrl" value="<%= content.site.coverLetterUrl %>" />
+            </label>
+          </div>
+        </section>
+
+        <section class="admin-card hover-card">
+          <div class="section-heading">
+            <p class="eyebrow">Media</p>
+            <h2>Video and image settings</h2>
+          </div>
+          <div class="admin-grid two-col-form">
+            <label>
+              <span>Hero Video URL</span>
+              <input type="text" name="heroVideo" value="<%= content.site.heroVideo %>" />
+              <small>You can paste a local path, upload a new video below, or use an external MP4 URL.</small>
+            </label>
+            <label>
+              <span>Upload Hero Video</span>
+              <input type="file" name="heroVideoFile" accept="video/*" />
+            </label>
+            <label>
+              <span>Hero Poster Image URL</span>
+              <input type="text" name="heroPoster" value="<%= content.site.heroPoster %>" />
+            </label>
+            <label>
+              <span>Upload Hero Poster Image</span>
+              <input type="file" name="heroPosterFile" accept="image/*" />
+            </label>
+            <label>
+              <span>Profile Image URL</span>
+              <input type="text" name="profileImage" value="<%= content.site.profileImage %>" />
+            </label>
+            <label>
+              <span>Upload Profile Image</span>
+              <input type="file" name="profileImageFile" accept="image/*" />
+            </label>
+            <label>
+              <span>Feature Background Image URL</span>
+              <input type="text" name="featureBackground" value="<%= content.site.featureBackground %>" />
+            </label>
+            <label>
+              <span>Upload Feature Background Image</span>
+              <input type="file" name="featureBackgroundFile" accept="image/*" />
+            </label>
+          </div>
+        </section>
+
+        <section class="admin-card hover-card">
+          <div class="section-heading">
+            <p class="eyebrow">Introduction</p>
+            <h2>Professional introduction statement</h2>
+          </div>
+          <label>
+            <span>Introduction Statement</span>
+            <textarea name="introStatement" rows="7"><%= content.introStatement %></textarea>
+          </label>
+        </section>
+
+        <section class="admin-card hover-card">
+          <div class="admin-section-top">
+            <div>
+              <p class="eyebrow">Table of Contents</p>
+              <h2>Section links</h2>
+            </div>
+            <button type="button" class="button button-secondary add-item" data-target="toc">Add Link</button>
+          </div>
+          <div id="tocContainer" class="repeater-grid"></div>
+        </section>
+
+        <section class="admin-card hover-card">
+          <div class="admin-section-top">
+            <div>
+              <p class="eyebrow">Education</p>
+              <h2>Academic entries</h2>
+            </div>
+            <button type="button" class="button button-secondary add-item" data-target="education">Add Education</button>
+          </div>
+          <div id="educationContainer" class="repeater-grid"></div>
+        </section>
+
+        <section class="admin-card hover-card">
+          <div class="admin-section-top">
+            <div>
+              <p class="eyebrow">Work Experience</p>
+              <h2>Professional roles</h2>
+            </div>
+            <button type="button" class="button button-secondary add-item" data-target="workExperience">Add Role</button>
+          </div>
+          <div id="workExperienceContainer" class="repeater-grid"></div>
+        </section>
+
+        <section class="admin-card hover-card">
+          <div class="section-heading">
+            <p class="eyebrow">Skills, Accomplishments, Certifications</p>
+            <h2>One item per line</h2>
+          </div>
+          <div class="admin-grid three-col-form">
+            <label>
+              <span>Skills</span>
+              <textarea name="skillsText" rows="12"><%= (content.skills || []).join('\n') %></textarea>
+            </label>
+            <label>
+              <span>Accomplishments</span>
+              <textarea name="accomplishmentsText" rows="12"><%= (content.accomplishments || []).join('\n') %></textarea>
+            </label>
+            <label>
+              <span>Certifications</span>
+              <textarea name="certificationsText" rows="12"><%= (content.certifications || []).join('\n') %></textarea>
+            </label>
+          </div>
+        </section>
+
+        <section class="admin-card hover-card">
+          <div class="admin-section-top">
+            <div>
+              <p class="eyebrow">Projects</p>
+              <h2>Academic projects & work samples</h2>
+            </div>
+            <button type="button" class="button button-secondary add-item" data-target="projects">Add Project</button>
+          </div>
+          <div id="projectsContainer" class="repeater-grid"></div>
+        </section>
+
+        <section class="admin-card hover-card">
+          <div class="admin-section-top">
+            <div>
+              <p class="eyebrow">Volunteer Work</p>
+              <h2>Community and leadership service</h2>
+            </div>
+            <button type="button" class="button button-secondary add-item" data-target="volunteerWork">Add Volunteer Role</button>
+          </div>
+          <div id="volunteerWorkContainer" class="repeater-grid"></div>
+        </section>
+
+        <section class="admin-card hover-card">
+          <div class="section-heading">
+            <p class="eyebrow">Photo Gallery</p>
+            <h2>Three editable photo spaces</h2>
+          </div>
+          <div class="card-grid three-up admin-gallery-grid">
+            <% (content.photoGallery || []).slice(0, 3).forEach((photo, index) => { %>
+              <article class="media-card">
+                <img src="<%= photo.image %>" alt="Gallery preview <%= index + 1 %>" class="admin-preview" />
+                <label>
+                  <span>Photo Title</span>
+                  <input type="text" class="gallery-title" data-index="<%= index %>" value="<%= photo.title %>" />
+                </label>
+                <label>
+                  <span>Photo Caption</span>
+                  <textarea rows="4" class="gallery-caption" data-index="<%= index %>"><%= photo.caption %></textarea>
+                </label>
+                <label>
+                  <span>Image URL (optional)</span>
+                  <input type="text" name="galleryImageUrl<%= index %>" class="gallery-image-url" data-index="<%= index %>" value="<%= photo.image %>" />
+                </label>
+                <label>
+                  <span>Upload New Image</span>
+                  <input type="file" name="galleryImage<%= index %>" accept="image/*" />
+                </label>
+              </article>
+            <% }) %>
+          </div>
+        </section>
+
+        <section class="admin-card hover-card">
+          <div class="admin-section-top">
+            <div>
+              <p class="eyebrow">Course Progress</p>
+              <h2>Week cards</h2>
+            </div>
+            <button type="button" class="button button-secondary add-item" data-target="weeks">Add Week</button>
+          </div>
+          <div id="weeksContainer" class="repeater-grid"></div>
+        </section>
+
+        <div class="admin-actions sticky-submit">
+          <button type="submit" class="button button-primary">Save All Changes</button>
+        </div>
+      </form>
+    </main>
+
+    <script id="admin-data" type="application/json"><%- JSON.stringify(content) %></script>
+    <script src="/js/admin.js"></script>
+  </body>
+</html>

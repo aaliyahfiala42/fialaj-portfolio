@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body class="login-body">
+    <main class="login-shell">
+      <section class="login-card hover-card">
+        <p class="eyebrow">Admin Area</p>
+        <h1>Sign in to edit the portfolio</h1>
+        <p>Update text, links, images, and the homepage video from one simple dashboard.</p>
+
+        <% if (error) { %>
+          <div class="alert error"><%= error %></div>
+        <% } %>
+
+        <form action="/login" method="post" class="login-form">
+          <label>
+            <span>Username</span>
+            <input type="text" name="username" placeholder="Enter username" required />
+          </label>
+
+          <label>
+            <span>Password</span>
+            <input type="password" name="password" placeholder="Enter password" required />
+          </label>
+
+          <button type="submit" class="button button-primary full-width">Login</button>
+        </form>
+
+        <div class="login-links">
+          <a href="/">Back to portfolio</a>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

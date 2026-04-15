@@ -1,0 +1,217 @@
+{
+  "site": {
+    "ownerName": "Jennifer Fiala",
+    "siteTitle": "Jennifer’s Portfolio",
+    "heroTitle": "My Portfolio",
+    "tagline": "Inspiring Growth, Empowering Success, Leading with Heart.",
+    "subtitle": "Inspiring Growth, Empowering Success, Leading with Heart.",
+    "program": "Organizational Leadership & Technical Management",
+    "professionalTitle": "Advocate • Mentor • Community Leader",
+    "email": "fialaj@my.lowercolumbia.edu",
+    "phone": "503-462-8851",
+    "linkedinUrl": "https://www.linkedin.com/",
+    "resumeUrl": "https://portfolium.com/fialaj?ref=fialaj",
+    "coverLetterUrl": "",
+    "footerNote": "Built with heart, growth, and purpose.",
+    "heroVideo": "/uploads/1776273086978-0-waterfall-dorrigo-national-park-1280x7.mp4",
+    "heroPoster": "/images/hero-poster.png",
+    "profileImage": "/images/profile-placeholder.png",
+    "featureBackground": "/images/waterfall-bg.png"
+  },
+  "introStatement": "I am committed to helping others achieve their goals and dedicated to creating positive change. Professionally, my focus is on expanding access to essential resources for individuals with disabilities. Working as a home care aid with quadriplegic patients for many years inspired my passion for advocating for equitable access to essential resources regardless of income, to ensure that individuals receive the support they need. To me, leadership means creating an inclusive environment where all team members feel heard and valued. My priorities are my family, education, spirituality, and inspiring equity and opportunity in all aspects of my life, both professionally and personally.",
+  "toc": [
+    {
+      "title": "About Me",
+      "anchor": "about"
+    },
+    {
+      "title": "Overview",
+      "anchor": "overview"
+    },
+    {
+      "title": "Education",
+      "anchor": "education"
+    },
+    {
+      "title": "Work Experience",
+      "anchor": "experience"
+    },
+    {
+      "title": "Skills",
+      "anchor": "skills"
+    },
+    {
+      "title": "Resume",
+      "anchor": "resume"
+    },
+    {
+      "title": "Academic Projects & Work Samples",
+      "anchor": "projects"
+    },
+    {
+      "title": "Accomplishments",
+      "anchor": "accomplishments"
+    },
+    {
+      "title": "Clubs, Affiliations, & Volunteer Work",
+      "anchor": "volunteer"
+    },
+    {
+      "title": "Certifications",
+      "anchor": "certifications"
+    },
+    {
+      "title": "Contact Info",
+      "anchor": "contact"
+    }
+  ],
+  "education": [
+    {
+      "degree": "Bachelor of Applied Science, BAS-OLTM - Organizational Leadership & Technical Management",
+      "school": "Lower Columbia College",
+      "year": "2026",
+      "description": "Focused on leadership, strategy, collaboration, and inclusive organizational growth."
+    },
+    {
+      "degree": "Associate of Applied Science in Medical Administration",
+      "school": "Lower Columbia College",
+      "year": "2024",
+      "description": "Built strong administrative, communication, and healthcare systems knowledge."
+    }
+  ],
+  "workExperience": [
+    {
+      "role": "Career & Technical Scholar Lead & Mentor",
+      "employer": "Washington State Opportunity Scholarship (WSOS)",
+      "dates": "September 22, 2023 – Present",
+      "description": "Serve as a peer mentor to more than 200 college students, helping them navigate academic and professional resources, supporting scholars in college and WSOS processes, sharing opportunities, and building a sense of community."
+    },
+    {
+      "role": "Home Care Aid",
+      "employer": "Public Partnerships",
+      "dates": "May 13, 2018 – Present",
+      "description": "Support quadriplegic patients with daily living activities, physical care, emotional well-being, and greater independence in the home environment."
+    },
+    {
+      "role": "Restaurant Manager",
+      "employer": "Picasso",
+      "dates": "March 2014 – April 2018",
+      "description": "Oversaw day-to-day operations, led a team of approximately 15 employees, managed hiring and training, and improved workflow, service quality, and inventory control."
+    }
+  ],
+  "skills": [
+    "Communication & Collaboration",
+    "Teamwork",
+    "Time Management",
+    "Organization",
+    "Equity & Inclusion",
+    "Strong problem-solving and decision-making",
+    "Office Administration",
+    "Analytical and leadership skills",
+    "Proficient in Microsoft Office Suite",
+    "Health information systems",
+    "Ability to multitask and manage multiple projects"
+  ],
+  "projects": [
+    {
+      "title": "Digital Portfolio Website",
+      "description": "A growing digital portfolio that highlights leadership, service, academic progress, and work samples.",
+      "link": ""
+    },
+    {
+      "title": "Resume & Sample Cover Letter",
+      "description": "Downloadable materials that support professional opportunities and showcase readiness for future leadership roles.",
+      "link": "https://portfolium.com/fialaj?ref=fialaj"
+    }
+  ],
+  "accomplishments": [
+    "Mentor and support over 200 college scholars through WSOS.",
+    "Led teams and operations in both nonprofit and business environments.",
+    "Advanced academic goals while balancing leadership, service, family, and professional responsibilities.",
+    "Advocated for equitable access to essential resources and inclusive support systems."
+  ],
+  "volunteerWork": [
+    {
+      "organization": "Cowlitz Youth Soccer Association",
+      "role": "Treasurer",
+      "dates": "2020 – 2024",
+      "description": "Served as treasurer in Longview, Washington, helping support youth athletics and community engagement."
+    },
+    {
+      "organization": "Kelso Youth Soccer Club",
+      "role": "Treasurer",
+      "dates": "2020 – 2024",
+      "description": "Managed financial responsibilities and supported local youth soccer programming in Kelso, Washington."
+    },
+    {
+      "organization": "Lower Columbia College Rotaract Club",
+      "role": "Member / Secretary",
+      "dates": "2022 – 2025",
+      "description": "Supported service projects, student leadership, and community outreach efforts."
+    },
+    {
+      "organization": "Washington State Opportunity Scholarship (WSOS)",
+      "role": "Scholar-Leader",
+      "dates": "2023 – Present",
+      "description": "Support scholars in navigating college and WSOS processes, collaborate with staff and leads to find resources, assist scholars in connecting with academic and community support, provide quarterly opportunities, and help create a strong scholar community."
+    },
+    {
+      "organization": "Future Business Leaders of America (FBLA)",
+      "role": "Judge",
+      "dates": "2024 – Present",
+      "description": "Volunteer judge supporting student achievement and leadership development."
+    },
+    {
+      "organization": "Northwest Athletic Conference",
+      "role": "Volunteer",
+      "dates": "2023",
+      "description": "Contributed volunteer support for athletic and community events."
+    }
+  ],
+  "certifications": [
+    "Mental Health First Aid",
+    "Home Care Aid",
+    "Valid Driver’s License",
+    "Microsoft Office Suite (Word, Excel, PowerPoint, OneNote, Teams, & Outlook)"
+  ],
+  "photoGallery": [
+    {
+      "title": "Leadership in Action",
+      "caption": "Add a professional or event photo here.",
+      "image": "/images/gallery-1.png"
+    },
+    {
+      "title": "Community Impact",
+      "caption": "Use this space for volunteer, school, or mentorship photos.",
+      "image": "/images/gallery-2.png"
+    },
+    {
+      "title": "Academic Journey",
+      "caption": "Highlight your college experience, projects, or milestones.",
+      "image": "/images/gallery-3.png"
+    }
+  ],
+  "weeks": [
+    {
+      "title": "Week 1",
+      "summary": "I am working on putting together a website for my Digital Portfolio. For this first week’s assignment, I am submitting this document with the necessary portfolio components. (Website link coming soon!)",
+      "details": [
+        "Cover Page & Table of Contents",
+        "Name: Jennifer Fiala",
+        "Program: Organizational Leadership & Technical Management",
+        "Tagline: Inspiring Growth, Empowering Success, Leading with Empathy",
+        "Professional introduction focused on equity, leadership, spirituality, family, and education."
+      ]
+    },
+    {
+      "title": "Week 2",
+      "summary": "Expanded portfolio content with education, experience, volunteer work, skills, certifications, and professional documents.",
+      "details": [
+        "Added degree information and updated academic background.",
+        "Included work experience as a scholar lead, home care aid, and restaurant manager.",
+        "Added volunteer work, community outreach, and club involvement.",
+        "Showcased certifications, skills, resume, and sample cover letter references."
+      ]
+    }
+  ]
+}

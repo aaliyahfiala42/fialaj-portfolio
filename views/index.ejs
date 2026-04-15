@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= content.site.siteTitle %></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <div class="floating-leaves" aria-hidden="true">
+      <span class="leaf leaf-1"></span>
+      <span class="leaf leaf-2"></span>
+      <span class="leaf leaf-3"></span>
+      <span class="leaf leaf-4"></span>
+      <span class="leaf leaf-5"></span>
+    </div>
+
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <a class="brand" href="#home"><%= content.site.ownerName %></a>
+        <nav class="nav-links">
+          <% content.toc.forEach((item) => { %>
+            <a href="#<%= item.anchor %>"><%= item.title %></a>
+          <% }) %>
+          <% if (isAdmin) { %>
+            <a class="nav-cta" href="/admin">Admin</a>
+          <% } else { %>
+            <a class="nav-cta" href="/login">Admin Login</a>
+          <% } %>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section id="home" class="hero-section">
+        <video class="hero-video" autoplay muted loop playsinline poster="<%= content.site.heroPoster %>">
+          <source src="<%= content.site.heroVideo %>" type="video/mp4" />
+        </video>
+        <div class="hero-overlay"></div>
+
+        <div class="container hero-content">
+          <div class="hero-badge">Portfolio Website</div>
+          <div class="hero-grid">
+            <div class="hero-copy glass-panel hover-card">
+              <p class="eyebrow"><%= content.site.program %></p>
+              <h1><%= content.site.ownerName %></h1>
+              <h2><%= content.site.heroTitle %></h2>
+              <p class="hero-tagline"><%= content.site.tagline %></p>
+              <p class="hero-subtitle"><%= content.site.professionalTitle %></p>
+              <p class="hero-intro"><%= content.introStatement %></p>
+
+              <div class="hero-actions">
+                <a href="#about" class="button button-primary">Explore Portfolio</a>
+                <a href="#contact" class="button button-secondary">Contact Jennifer</a>
+              </div>
+
+              <div class="contact-pills">
+                <a href="tel:<%= content.site.phone %>"><%= content.site.phone %></a>
+                <a href="mailto:<%= content.site.email %>"><%= content.site.email %></a>
+                <a href="<%= content.site.linkedinUrl %>" target="_blank" rel="noreferrer">LinkedIn</a>
+              </div>
+            </div>
+
+            <div class="hero-profile glass-panel hover-card">
+              <div class="profile-photo-wrap">
+                <img src="<%= content.site.profileImage %>" alt="<%= content.site.ownerName %> profile photo" class="profile-photo" />
+              </div>
+              <div class="profile-copy">
+                <p class="profile-label">Professional Introduction</p>
+                <p><%= content.site.subtitle %></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section toc-section">
+        <div class="container">
+          <div class="section-heading center">
+            <p class="eyebrow">Cover Page & Table of Contents</p>
+            <h2>Navigate Jennifer’s Portfolio</h2>
+            <p>Clean links for each section of the digital portfolio, designed for both desktop and mobile screens.</p>
+          </div>
+          <div class="toc-grid">
+            <% content.toc.forEach((item, index) => { %>
+              <a class="toc-card hover-card" href="#<%= item.anchor %>">
+                <span class="toc-index"><%= String(index + 1).padStart(2, '0') %></span>
+                <span class="toc-title"><%= item.title %></span>
+              </a>
+            <% }) %>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" class="section">
+        <div class="container two-column">
+          <div>
+            <div class="section-heading">
+              <p class="eyebrow">About Me</p>
+              <h2>Leading with empathy, purpose, and service</h2>
+            </div>
+            <p class="section-copy"><%= content.introStatement %></p>
+          </div>
+          <div class="stats-grid">
+            <article class="info-card hover-card">
+              <h3>Program</h3>
+              <p><%= content.site.program %></p>
+            </article>
+            <article class="info-card hover-card">
+              <h3>Academic Goal</h3>
+              <p>Complete a BAS in Organizational Leadership & Technical Management in 2026.</p>
+            </article>
+            <article class="info-card hover-card">
+              <h3>Career Focus</h3>
+              <p>Expand access to essential resources for individuals with disabilities.</p>
+            </article>
+            <article class="info-card hover-card">
+              <h3>Leadership Style</h3>
+              <p>Create inclusive spaces where team members feel heard, valued, and supported.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="overview" class="section feature-banner" style="background-image: linear-gradient(rgba(38, 34, 31, 0.35), rgba(38, 34, 31, 0.55)), url('<%= content.site.featureBackground %>');">
+        <div class="container feature-banner-inner">
+          <p class="eyebrow light">Jennifer’s Portfolio</p>
+          <h2><%= content.site.tagline %></h2>
+          <p>Background image area for a waterfall with greenery, styled to keep the website calm, professional, and growth-focused.</p>
+        </div>
+      </section>
+
+      <section id="education" class="section">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Education</p>
+            <h2>Academic background</h2>
+          </div>
+          <div class="card-grid two-up">
+            <% content.education.forEach((item) => { %>
+              <article class="info-card hover-card timeline-card">
+                <span class="card-kicker"><%= item.year %></span>
+                <h3><%= item.degree %></h3>
+                <p class="muted"><%= item.school %></p>
+                <p><%= item.description %></p>
+              </article>
+            <% }) %>
+          </div>
+        </div>
+      </section>
+
+      <section id="experience" class="section alt-surface">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Work Experience</p>
+            <h2>Professional journey</h2>
+          </div>
+          <div class="stack-grid">
+            <% content.workExperience.forEach((item) => { %>
+              <article class="experience-card hover-card">
+                <div>
+                  <p class="card-kicker"><%= item.dates %></p>
+                  <h3><%= item.role %></h3>
+                  <p class="muted"><%= item.employer %></p>
+                </div>
+                <p><%= item.description %></p>
+              </article>
+            <% }) %>
+          </div>
+        </div>
+      </section>
+
+      <section id="skills" class="section">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Skills & Competencies</p>
+            <h2>Strengths that support impact</h2>
+          </div>
+          <div class="tag-cloud">
+            <% content.skills.forEach((skill) => { %>
+              <span class="skill-tag hover-card"><%= skill %></span>
+            <% }) %>
+          </div>
+        </div>
+      </section>
+
+      <section id="resume" class="section alt-surface">
+        <div class="container resume-grid">
+          <div>
+            <div class="section-heading">
+              <p class="eyebrow">Resume</p>
+              <h2>Professional documents</h2>
+            </div>
+            <p>Share Jennifer’s resume, cover letter, and future career materials here. The buttons below can be edited in the admin panel.</p>
+          </div>
+          <div class="button-cluster">
+            <a class="button button-primary" href="<%= content.site.resumeUrl %>" target="_blank" rel="noreferrer">View Resume</a>
+            <% if (content.site.coverLetterUrl) { %>
+              <a class="button button-secondary" href="<%= content.site.coverLetterUrl %>" target="_blank" rel="noreferrer">View Cover Letter</a>
+            <% } else { %>
+              <span class="button button-secondary button-disabled">Cover Letter Link Coming Soon</span>
+            <% } %>
+          </div>
+        </div>
+      </section>
+
+      <section id="projects" class="section">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Academic Projects & Work Samples</p>
+            <h2>Portfolio highlights</h2>
+          </div>
+          <div class="card-grid two-up">
+            <% content.projects.forEach((project) => { %>
+              <article class="info-card hover-card">
+                <h3><%= project.title %></h3>
+                <p><%= project.description %></p>
+                <% if (project.link) { %>
+                  <a href="<%= project.link %>" target="_blank" rel="noreferrer" class="text-link">Open Project</a>
+                <% } %>
+              </article>
+            <% }) %>
+          </div>
+        </div>
+      </section>
+
+      <section id="accomplishments" class="section alt-surface">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Accomplishments</p>
+            <h2>Milestones and impact</h2>
+          </div>
+          <div class="check-grid">
+            <% content.accomplishments.forEach((item) => { %>
+              <article class="check-card hover-card">
+                <span class="check-mark">✿</span>
+                <p><%= item %></p>
+              </article>
+            <% }) %>
+          </div>
+        </div>
+      </section>
+
+      <section id="volunteer" class="section">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Clubs, Affiliations, & Volunteer Work</p>
+            <h2>Service-centered leadership</h2>
+          </div>
+          <div class="card-grid three-up">
+            <% content.volunteerWork.forEach((item) => { %>
+              <article class="info-card hover-card volunteer-card">
+                <p class="card-kicker"><%= item.dates %></p>
+                <h3><%= item.organization %></h3>
+                <p class="muted"><%= item.role %></p>
+                <p><%= item.description %></p>
+              </article>
+            <% }) %>
+          </div>
+        </div>
+      </section>
+
+      <section class="section alt-surface">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Photo Gallery</p>
+            <h2>Spaces for photos</h2>
+          </div>
+          <div class="gallery-grid">
+            <% content.photoGallery.forEach((photo) => { %>
+              <article class="gallery-card hover-card">
+                <img src="<%= photo.image %>" alt="<%= photo.title %>" />
+                <div class="gallery-copy">
+                  <h3><%= photo.title %></h3>
+                  <p><%= photo.caption %></p>
+                </div>
+              </article>
+            <% }) %>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Course Progress</p>
+            <h2>Week-by-week portfolio development</h2>
+          </div>
+          <div class="card-grid two-up">
+            <% content.weeks.forEach((week) => { %>
+              <article class="info-card hover-card">
+                <h3><%= week.title %></h3>
+                <p><%= week.summary %></p>
+                <% if (week.details && week.details.length) { %>
+                  <ul class="detail-list">
+                    <% week.details.forEach((detail) => { %>
+                      <li><%= detail %></li>
+                    <% }) %>
+                  </ul>
+                <% } %>
+              </article>
+            <% }) %>
+          </div>
+        </div>
+      </section>
+
+      <section id="certifications" class="section alt-surface">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Certifications</p>
+            <h2>Credentials and training</h2>
+          </div>
+          <div class="tag-cloud">
+            <% content.certifications.forEach((item) => { %>
+              <span class="skill-tag hover-card"><%= item %></span>
+            <% }) %>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="section contact-section">
+        <div class="container two-column">
+          <div>
+            <div class="section-heading">
+              <p class="eyebrow">Contact Info</p>
+              <h2>Let’s connect</h2>
+            </div>
+            <p class="section-copy">Jennifer is passionate about leadership, access, advocacy, and creating positive change. Reach out for networking, collaboration, or future opportunities.</p>
+          </div>
+          <div class="contact-card hover-card">
+            <a href="tel:<%= content.site.phone %>"><strong>Phone:</strong> <%= content.site.phone %></a>
+            <a href="mailto:<%= content.site.email %>"><strong>Email:</strong> <%= content.site.email %></a>
+            <a href="<%= content.site.linkedinUrl %>" target="_blank" rel="noreferrer"><strong>LinkedIn:</strong> View profile</a>
+            <a href="<%= content.site.resumeUrl %>" target="_blank" rel="noreferrer"><strong>Resume:</strong> Open resume link</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <p><%= content.site.ownerName %> • <%= content.site.program %></p>
+        <p><%= content.site.footerNote %></p>
+      </div>
+    </footer>
+  </body>
+</html>
