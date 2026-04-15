@@ -8,7 +8,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3006;
 const DATA_PATH = path.join(__dirname, 'data', 'content.json');
 const UPLOAD_DIR = path.join(__dirname, 'public', 'uploads');
 
@@ -312,6 +312,6 @@ app.use((_req, res) => {
   });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, '128.0.0.1', () => {
   console.log(`Jennifer portfolio app is running on http://localhost:${PORT}`);
 });
