@@ -312,6 +312,6 @@ app.use((_req, res) => {
   });
 });
 
-app.listen(PORT, '128.0.0.1', () => {
+app.listen(PORT, '127.0.0.1', () => {
   console.log(`Jennifer portfolio app is running on http://localhost:${PORT}`);
 });
