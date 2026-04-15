@@ -10,21 +10,13 @@
     <link rel="stylesheet" href="/css/styles.css" />
   </head>
   <body>
-    <div class="floating-leaves" aria-hidden="true">
-      <span class="leaf leaf-1"></span>
-      <span class="leaf leaf-2"></span>
-      <span class="leaf leaf-3"></span>
-      <span class="leaf leaf-4"></span>
-      <span class="leaf leaf-5"></span>
-    </div>
-
     <header class="topbar">
       <div class="container topbar-inner">
-        <a class="brand" href="#home"><%= content.site.ownerName %></a>
+        <a class="brand" href="#home"><%= content.site.ownerName %> Portfolio</a>
         <nav class="nav-links">
-          <% content.toc.forEach((item) => { %>
+<!--           <% content.toc.forEach((item) => { %>
             <a href="#<%= item.anchor %>"><%= item.title %></a>
-          <% }) %>
+          <% }) %> -->
           <% if (isAdmin) { %>
             <a class="nav-cta" href="/admin">Admin</a>
           <% } else { %>
@@ -42,7 +34,6 @@
         <div class="hero-overlay"></div>
 
         <div class="container hero-content">
-          <div class="hero-badge">Portfolio Website</div>
           <div class="hero-grid">
             <div class="hero-copy glass-panel hover-card">
               <p class="eyebrow"><%= content.site.program %></p>
@@ -52,25 +43,12 @@
               <p class="hero-subtitle"><%= content.site.professionalTitle %></p>
               <p class="hero-intro"><%= content.introStatement %></p>
 
-              <div class="hero-actions">
-                <a href="#about" class="button button-primary">Explore Portfolio</a>
-                <a href="#contact" class="button button-secondary">Contact Jennifer</a>
-              </div>
 
-              <div class="contact-pills">
-                <a href="tel:<%= content.site.phone %>"><%= content.site.phone %></a>
-                <a href="mailto:<%= content.site.email %>"><%= content.site.email %></a>
-                <a href="<%= content.site.linkedinUrl %>" target="_blank" rel="noreferrer">LinkedIn</a>
-              </div>
             </div>
 
             <div class="hero-profile glass-panel hover-card">
               <div class="profile-photo-wrap">
                 <img src="<%= content.site.profileImage %>" alt="<%= content.site.ownerName %> profile photo" class="profile-photo" />
-              </div>
-              <div class="profile-copy">
-                <p class="profile-label">Professional Introduction</p>
-                <p><%= content.site.subtitle %></p>
               </div>
             </div>
           </div>
@@ -80,9 +58,8 @@
       <section class="section toc-section">
         <div class="container">
           <div class="section-heading center">
-            <p class="eyebrow">Cover Page & Table of Contents</p>
+            <p class="eyebrow">Table of Contents</p>
             <h2>Navigate Jennifer’s Portfolio</h2>
-            <p>Clean links for each section of the digital portfolio, designed for both desktop and mobile screens.</p>
           </div>
           <div class="toc-grid">
             <% content.toc.forEach((item, index) => { %>
@@ -129,7 +106,6 @@
         <div class="container feature-banner-inner">
           <p class="eyebrow light">Jennifer’s Portfolio</p>
           <h2><%= content.site.tagline %></h2>
-          <p>Background image area for a waterfall with greenery, styled to keep the website calm, professional, and growth-focused.</p>
         </div>
       </section>
 
@@ -194,7 +170,6 @@
               <p class="eyebrow">Resume</p>
               <h2>Professional documents</h2>
             </div>
-            <p>Share Jennifer’s resume, cover letter, and future career materials here. The buttons below can be edited in the admin panel.</p>
           </div>
           <div class="button-cluster">
             <a class="button button-primary" href="<%= content.site.resumeUrl %>" target="_blank" rel="noreferrer">View Resume</a>
@@ -283,7 +258,7 @@
         </div>
       </section>
 
-      <section class="section">
+<!--       <section class="section">
         <div class="container">
           <div class="section-heading">
             <p class="eyebrow">Course Progress</p>
@@ -306,8 +281,8 @@
           </div>
         </div>
       </section>
-
-      <section id="certifications" class="section alt-surface">
+ -->
+      <section id="certifications" class="section">
         <div class="container">
           <div class="section-heading">
             <p class="eyebrow">Certifications</p>
@@ -321,7 +296,7 @@
         </div>
       </section>
 
-      <section id="contact" class="section contact-section">
+      <section id="contact" class="section contact-section alt-surface">
         <div class="container two-column">
           <div>
             <div class="section-heading">

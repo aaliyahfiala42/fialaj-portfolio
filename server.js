@@ -135,7 +135,7 @@ function getUploadedPath(files, fieldName) {
 
 app.get('/', (req, res) => {
   const content = loadContent();
-  res.render('index', {
+  res.render('home', {
     content,
     isAdmin: isAdmin(req)
   });
