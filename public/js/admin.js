@@ -41,7 +41,7 @@
       fields: [
         { key: 'title', label: 'Project Title' },
         { key: 'description', label: 'Description', type: 'textarea' },
-        { key: 'link', label: 'Project Link' }
+        { key: 'link', label: 'Project Link', type: 'url' }
       ]
     },
     volunteerWork: {
@@ -67,17 +67,73 @@
           serializeAsList: true
         }
       ]
+    },
+    references: {
+      containerId: 'referencesContainer',
+      hiddenId: 'referencesJson',
+      fields: [
+        { key: 'name', label: 'Reference Name' },
+        { key: 'organization', label: 'Organization' },
+        { key: 'role', label: 'Role / Title' },
+        { key: 'connection', label: 'Connection to Them' },
+        { key: 'email', label: 'Email', type: 'email' },
+        { key: 'phone', label: 'Phone' },
+        { key: 'linkedinUrl', label: 'LinkedIn URL', type: 'url' },
+        { key: 'notes', label: 'Notes', type: 'textarea' }
+      ]
+    },
+    recommendationLetters: {
+      containerId: 'recommendationLettersContainer',
+      hiddenId: 'recommendationLettersJson',
+      fields: [
+        { key: 'title', label: 'Letter Title' },
+        { key: 'recommenderName', label: 'Recommender Name' },
+        { key: 'relationship', label: 'Relationship' },
+        { key: 'description', label: 'Description', type: 'textarea' },
+        {
+          key: 'pdfFile',
+          label: 'Upload PDF',
+          type: 'file',
+          accept: '.pdf,application/pdf',
+          previewKey: 'pdfUrl',
+          previewLabel: 'Open current PDF'
+        }
+      ]
+    },
+    blogPosts: {
+      containerId: 'blogPostsContainer',
+      hiddenId: 'blogPostsJson',
+      fields: [
+        { key: 'title', label: 'Post Title' },
+        { key: 'author', label: 'Author' },
+        { key: 'category', label: 'Category' },
+        { key: 'publishDate', label: 'Publish Date', type: 'date' },
+        { key: 'excerpt', label: 'Card Excerpt', type: 'textarea' },
+        {
+          key: 'imageFile',
+          label: 'Upload Photo',
+          type: 'file',
+          accept: 'image/*',
+          previewKey: 'imageUrl',
+          previewLabel: 'Open current photo'
+        },
+        {
+          key: 'videoFile',
+          label: 'Upload Video',
+          type: 'file',
+          accept: 'video/*',
+          previewKey: 'videoUrl',
+          previewLabel: 'Open current video'
+        },
+        { key: 'body', label: 'Full Blog Post', type: 'richtext' }
+      ]
     }
   };
 
-  const state = {
-    toc: Array.isArray(initialData.toc) ? initialData.toc : [],
-    education: Array.isArray(initialData.education) ? initialData.education : [],
-    workExperience: Array.isArray(initialData.workExperience) ? initialData.workExperience : [],
-    projects: Array.isArray(initialData.projects) ? initialData.projects : [],
-    volunteerWork: Array.isArray(initialData.volunteerWork) ? initialData.volunteerWork : [],
-    weeks: Array.isArray(initialData.weeks) ? initialData.weeks : []
-  };
+  const state = {};
+  Object.keys(repeaterConfig).forEach((key) => {
+    state[key] = Array.isArray(initialData[key]) ? initialData[key] : [];
+  });
 
   function textareaValue(value) {
     if (Array.isArray(value)) return value.join('\n');
@@ -91,6 +147,61 @@
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#39;');
+  }
+
+  function getInputType(field) {
+    if (!field.type || ['textarea', 'richtext', 'file'].includes(field.type)) return 'text';
+    return field.type;
+  }
+
+  function renderFieldMarkup(group, field, item, index) {
+    const value =
+      field.type === 'textarea' || field.type === 'richtext'
+        ? textareaValue(item[field.key])
+        : item[field.key] || '';
+
+    if (field.type === 'file') {
+      const currentValue = field.previewKey ? item[field.previewKey] || '' : '';
+
+      return `
+        <label style="grid-column: 1 / -1;">
+          <span>${field.label}</span>
+          ${currentValue ? `<a class="text-link" href="${escapeHtml(currentValue)}" target="_blank" rel="noreferrer">${field.previewLabel || 'Open current file'}</a>` : ''}
+          <input type="file" name="${group}_${field.key}_${index}" accept="${field.accept || '*/*'}" />
+        </label>
+      `;
+    }
+
+    if (field.type === 'richtext') {
+      return `
+        <label style="grid-column: 1 / -1;">
+          <span>${field.label}</span>
+          <div class="button-cluster" style="margin-bottom: 0.75rem;">
+            <button type="button" class="button button-secondary editor-action" data-action="bold">Bold</button>
+            <button type="button" class="button button-secondary editor-action" data-action="italic">Italic</button>
+            <button type="button" class="button button-secondary editor-action" data-action="paragraph">Paragraph Break</button>
+          </div>
+          <textarea rows="12" data-key="${field.key}" data-index="${index}" data-group="${group}" class="richtext-input">${escapeHtml(value)}</textarea>
+          <small>Whitespace is preserved. Use the toolbar to wrap selected text in bold or italic.</small>
+        </label>
+      `;
+    }
+
+    if (field.type === 'textarea') {
+      return `
+        <label ${field.serializeAsList ? 'style="grid-column: 1 / -1;"' : ''}>
+          <span>${field.label}</span>
+          <textarea rows="5" data-key="${field.key}" data-index="${index}" data-group="${group}">${escapeHtml(value)}</textarea>
+        </label>
+      `;
+    }
+
+    return `
+      <label>
+        <span>${field.label}</span>
+        <input type="${getInputType(field)}" value="${escapeHtml(value)}" data-key="${field.key}" data-index="${index}" data-group="${group}" />
+      </label>
+    `;
   }
 
   function renderRepeater(key) {
@@ -110,25 +221,7 @@
       card.className = 'repeater-card';
 
       const fieldsMarkup = config.fields
-        .map((field) => {
-          const value = field.type === 'textarea' ? textareaValue(item[field.key]) : item[field.key] || '';
-
-          if (field.type === 'textarea') {
-            return `
-              <label>
-                <span>${field.label}</span>
-                <textarea rows="5" data-key="${field.key}" data-index="${index}" data-group="${key}">${escapeHtml(value)}</textarea>
-              </label>
-            `;
-          }
-
-          return `
-            <label>
-              <span>${field.label}</span>
-              <input type="text" value="${escapeHtml(value)}" data-key="${field.key}" data-index="${index}" data-group="${key}" />
-            </label>
-          `;
-        })
+        .map((field) => renderFieldMarkup(key, field, item, index))
         .join('');
 
       card.innerHTML = `
@@ -148,9 +241,12 @@
   function addItem(key) {
     const config = repeaterConfig[key];
     const emptyItem = {};
+
     config.fields.forEach((field) => {
+      if (field.type === 'file') return;
       emptyItem[field.key] = field.serializeAsList ? [] : '';
     });
+
     state[key].push(emptyItem);
     renderRepeater(key);
   }
@@ -174,6 +270,25 @@
     }
   }
 
+  function wrapSelection(textarea, before, after) {
+    const start = textarea.selectionStart || 0;
+    const end = textarea.selectionEnd || 0;
+    const selected = textarea.value.slice(start, end);
+    const replacement = `${before}${selected}${after}`;
+
+    textarea.setRangeText(replacement, start, end, 'end');
+    textarea.focus();
+    textarea.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+
+  function insertText(textarea, text) {
+    const start = textarea.selectionStart || 0;
+    const end = textarea.selectionEnd || 0;
+    textarea.setRangeText(text, start, end, 'end');
+    textarea.focus();
+    textarea.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+
   Object.keys(repeaterConfig).forEach((key) => {
     renderRepeater(key);
   });
@@ -191,6 +306,26 @@
   });
 
   document.addEventListener('click', (event) => {
+    const editorButton = event.target.closest('.editor-action');
+
+    if (editorButton) {
+      const wrapper = editorButton.closest('label');
+      const textarea = wrapper ? wrapper.querySelector('textarea') : null;
+      if (!textarea) return;
+
+      const action = editorButton.dataset.action;
+
+      if (action === 'bold') {
+        wrapSelection(textarea, '<strong>', '</strong>');
+      } else if (action === 'italic') {
+        wrapSelection(textarea, '<em>', '</em>');
+      } else if (action === 'paragraph') {
+        insertText(textarea, '\n\n');
+      }
+
+      return;
+    }
+
     const button = event.target.closest('.remove-item');
     if (!button) return;
 

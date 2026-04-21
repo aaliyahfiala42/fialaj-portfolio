@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= post.title %> | <%= content.site.siteTitle %></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <a class="brand" href="/#home"><%= content.site.ownerName %> Portfolio</a>
+        <nav class="nav-links">
+          <a href="/#blog">Back to Home</a>
+          <% if (isAdmin) { %>
+            <a class="nav-cta" href="/admin">Admin</a>
+          <% } else { %>
+            <a class="nav-cta" href="/login">Admin Login</a>
+          <% } %>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="section">
+        <div class="container">
+          <article class="glass-panel hover-card blog-card">
+            <p class="eyebrow">Blog Post</p>
+            <h1><%= post.title %></h1>
+            
+            <p class="muted">
+              <%= post.publishDate || 'Draft' %>
+              <% if (post.author) { %> • <%= post.author %><% } %>
+              <% if (post.category) { %> • <%= post.category %><% } %>
+            </p>
+
+
+            <% if (post.imageUrl) { %>
+                <div class="blogmedia">
+                    <img src="<%= post.imageUrl %>" alt="<%= post.title %>" class="blog-post-media" />
+                </div>
+            <% } %>
+
+
+
+
+            <% if (post.body) { %>
+              <div class="section-copy rich-text"><%- post.body %></div>
+            <% } else if (post.excerpt) { %>
+              <div class="section-copy rich-text"><%= post.excerpt %></div>
+            <% } %>
+
+            <% if (post.videoUrl) { %>
+                                <div class="blogmedia">
+
+              <video class="blog-post-media" controls playsinline>
+                <source src="<%= post.videoUrl %>" type="video/mp4" />
+              </video>
+                              </div>
+
+            <% } %>
+
+
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <p><%= content.site.ownerName %> • <%= content.site.program %></p>
+        <p><%= content.site.footerNote %></p>
+      </div>
+    </footer>
+  </body>
+</html>

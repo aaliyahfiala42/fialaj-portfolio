@@ -3,7 +3,7 @@
   --surface: rgba(255, 255, 255, 0.84);
   --surface-strong: #fffdf8;
   --text: #302823;
-  --muted: #6f665f;
+  --muted: #514b46;
   --maroon: #7b2f45;
   --maroon-dark: #5e2235;
   --green: #5c7354;
@@ -300,7 +300,7 @@ textarea {
   align-items: center;
   justify-content: center;
   padding: 0.9rem 1.25rem;
-  border-radius: 999px;
+  border-radius: 22px;
   font-weight: 700;
   border: 1px solid transparent;
   transition: 0.25s ease;
@@ -468,10 +468,15 @@ small {
   display: grid;
   gap: 1rem;
 }
+.stack-grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+}
 
 .experience-card {
   display: grid;
-  grid-template-columns: 0.8fr 1.2fr;
+  grid-template-columns: 1fr 1fr;
   gap: 1.2rem;
 }
 
@@ -789,4 +794,39 @@ textarea {
   .nav-links {
     width: 100%;
   }
+}
+
+
+
+.rich-text {
+  white-space: pre-wrap;
+  line-height: 1.8;
+}
+
+.blog-card-media,
+.blog-post-media {
+  width: 100%;
+  border-radius: 24px;
+  object-fit: cover;
+}
+
+.blog-card-media {
+  aspect-ratio: 16 / 9;
+}
+
+.blog-post-media {
+  display: block;
+  margin: 1.5rem auto;
+}
+
+.blogmedia {
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+}
+
+.blog-card {
+  padding: 30px;
 }

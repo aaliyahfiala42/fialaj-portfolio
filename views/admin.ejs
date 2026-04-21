@@ -39,6 +39,9 @@
         <input type="hidden" name="volunteerWorkJson" id="volunteerWorkJson" />
         <input type="hidden" name="weeksJson" id="weeksJson" />
         <input type="hidden" name="photoGalleryJson" id="photoGalleryJson" />
+        <input type="hidden" name="referencesJson" id="referencesJson" />
+        <input type="hidden" name="recommendationLettersJson" id="recommendationLettersJson" />
+        <input type="hidden" name="blogPostsJson" id="blogPostsJson" />
 
         <section class="admin-card hover-card">
           <div class="section-heading">
@@ -101,11 +104,11 @@
             </label>
             <label>
               <span>Resume URL</span>
-              <input type="url" name="resumeUrl" value="<%= content.site.resumeUrl %>" />
+              <input type="text" name="resumeUrl" value="<%= content.site.resumeUrl %>" />
             </label>
             <label>
               <span>Cover Letter URL</span>
-              <input type="url" name="coverLetterUrl" value="<%= content.site.coverLetterUrl %>" />
+              <input type="text" name="coverLetterUrl" value="<%= content.site.coverLetterUrl %>" />
             </label>
           </div>
         </section>
@@ -221,7 +224,7 @@
           <div class="admin-section-top">
             <div>
               <p class="eyebrow">Projects</p>
-              <h2>Academic projects & work samples</h2>
+              <h2>Academic Projects & Work Samples</h2>
             </div>
             <button type="button" class="button button-secondary add-item" data-target="projects">Add Project</button>
           </div>
@@ -232,13 +235,13 @@
           <div class="admin-section-top">
             <div>
               <p class="eyebrow">Volunteer Work</p>
-              <h2>Community and leadership service</h2>
+              <h2>Community and Leadership Service</h2>
             </div>
             <button type="button" class="button button-secondary add-item" data-target="volunteerWork">Add Volunteer Role</button>
           </div>
           <div id="volunteerWorkContainer" class="repeater-grid"></div>
         </section>
-
+<!-- 
         <section class="admin-card hover-card">
           <div class="section-heading">
             <p class="eyebrow">Photo Gallery</p>
@@ -268,8 +271,8 @@
             <% }) %>
           </div>
         </section>
-
-        <section class="admin-card hover-card">
+ -->
+<!--         <section class="admin-card hover-card">
           <div class="admin-section-top">
             <div>
               <p class="eyebrow">Course Progress</p>
@@ -278,8 +281,105 @@
             <button type="button" class="button button-secondary add-item" data-target="weeks">Add Week</button>
           </div>
           <div id="weeksContainer" class="repeater-grid"></div>
+        </section> -->
+
+                <section class="admin-card hover-card">
+          <div class="admin-section-top">
+            <div>
+              <p class="eyebrow">References</p>
+              <h2>Professional references with contact info</h2>
+            </div>
+            <button type="button" class="button button-secondary add-item" data-target="references">Add Reference</button>
+          </div>
+          <div id="referencesContainer" class="repeater-grid"></div>
         </section>
 
+        <section class="admin-card hover-card">
+          <div class="admin-section-top">
+            <div>
+              <p class="eyebrow">Letters of Recommendation</p>
+              <h2>Upload or link recommendation PDFs</h2>
+            </div>
+            <button type="button" class="button button-secondary add-item" data-target="recommendationLetters">Add Letter</button>
+          </div>
+          <div id="recommendationLettersContainer" class="repeater-grid"></div>
+        </section>
+
+        <section class="admin-card hover-card">
+          <div class="admin-section-top">
+            <div>
+              <p class="eyebrow">Blog</p>
+              <h2>Create blog posts with optional photos and videos</h2>
+            </div>
+            <button type="button" class="button button-secondary add-item" data-target="blogPosts">Add Blog Post</button>
+          </div>
+          <div id="blogPostsContainer" class="repeater-grid"></div>
+        </section>
+
+        <% const career = content.careerPlanning || {}; %>
+        <section class="admin-card hover-card">
+          <div class="section-heading">
+            <p class="eyebrow">Career Planning</p>
+            <h2>Editable career planning content</h2>
+          </div>
+
+          <div class="admin-grid two-col-form">
+            <label>
+              <span>Target Career Field Title</span>
+              <input type="text" name="careerFieldTitle" value="<%= career.targetCareerFieldTitle || '' %>" />
+            </label>
+
+            <label>
+              <span>Job Outlook</span>
+              <textarea name="careerJobOutlook" rows="5"><%= career.jobOutlook || '' %></textarea>
+            </label>
+
+            <label style="grid-column: 1 / -1;">
+              <span>Target Career Field Summary</span>
+              <textarea name="careerFieldSummary" rows="6"><%= career.targetCareerFieldSummary || '' %></textarea>
+            </label>
+
+            <label>
+              <span>Required Qualifications (one per line)</span>
+              <textarea name="careerRequiredQualifications" rows="6"><%= (career.requiredQualifications || []).join('\n') %></textarea>
+            </label>
+
+            <label>
+              <span>Potential Employers (one per line)</span>
+              <textarea name="careerPotentialEmployers" rows="6"><%= (career.potentialEmployers || []).join('\n') %></textarea>
+            </label>
+
+            <label>
+              <span>Short-Term Plan Title</span>
+              <input type="text" name="careerShortTermTitle" value="<%= career.shortTermTitle || '' %>" />
+            </label>
+
+            <label>
+              <span>Long-Term Plan Title</span>
+              <input type="text" name="careerLongTermTitle" value="<%= career.longTermTitle || '' %>" />
+            </label>
+
+            <label>
+              <span>Short-Term Plan Text</span>
+              <textarea name="careerShortTermText" rows="6"><%= career.shortTermText || '' %></textarea>
+            </label>
+
+            <label>
+              <span>Long-Term Plan Text</span>
+              <textarea name="careerLongTermText" rows="6"><%= career.longTermText || '' %></textarea>
+            </label>
+
+            <label>
+              <span>Short-Term Milestones (one per line)</span>
+              <textarea name="careerShortTermMilestones" rows="6"><%= (career.shortTermMilestones || []).join('\n') %></textarea>
+            </label>
+
+            <label>
+              <span>Long-Term Milestones (one per line)</span>
+              <textarea name="careerLongTermMilestones" rows="6"><%= (career.longTermMilestones || []).join('\n') %></textarea>
+            </label>
+          </div>
+        </section>
         <div class="admin-actions sticky-submit">
           <button type="submit" class="button button-primary">Save All Changes</button>
         </div>

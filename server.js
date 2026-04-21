@@ -70,7 +70,23 @@ function loadContent() {
       volunteerWork: [],
       certifications: [],
       photoGallery: [],
-      weeks: []
+      weeks: [],
+      references: [],
+      recommendationLetters: [],
+      blogPosts: [],
+      careerPlanning: {
+        targetCareerFieldTitle: 'Target Career Field',
+        targetCareerFieldSummary: '',
+        jobOutlook: '',
+        requiredQualifications: [],
+        potentialEmployers: [],
+        shortTermTitle: 'Short-Term Career Plan (1–3 Years)',
+        shortTermText: '',
+        shortTermMilestones: [],
+        longTermTitle: 'Long-Term Career Plan (5–10 Years)',
+        longTermText: '',
+        longTermMilestones: []
+      }
     };
   }
 }
@@ -129,8 +145,38 @@ function cleanItemArray(items, shape) {
 }
 
 function getUploadedPath(files, fieldName) {
-  if (!files || !files[fieldName] || !files[fieldName][0]) return '';
-  return `/uploads/${files[fieldName][0].filename}`;
+  const match = (Array.isArray(files) ? files : []).find((file) => file.fieldname === fieldName);
+  if (!match) return '';
+  return `/uploads/${match.filename}`;
+}
+function cleanMultilineText(value = '') {
+  return String(value || '').trim();
+}
+
+function slugify(value = '') {
+  return String(value || '')
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+function buildUniqueSlug(value, usedSlugs) {
+  const base = slugify(value) || 'post';
+  let candidate = base;
+  let counter = 2;
+
+  while (usedSlugs.has(candidate)) {
+    candidate = `${base}-${counter}`;
+    counter += 1;
+  }
+
+  usedSlugs.add(candidate);
+  return candidate;
+}
+
+function stripHtml(value = '') {
+  return String(value || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
 }
 
 app.get('/', (req, res) => {
@@ -180,131 +226,200 @@ app.get('/admin', requireAdmin, (req, res) => {
   });
 });
 
-app.post(
-  '/admin/save',
-  requireAdmin,
-  upload.fields([
-    { name: 'profileImageFile', maxCount: 1 },
-    { name: 'heroVideoFile', maxCount: 1 },
-    { name: 'heroPosterFile', maxCount: 1 },
-    { name: 'featureBackgroundFile', maxCount: 1 },
-    { name: 'galleryImage0', maxCount: 1 },
-    { name: 'galleryImage1', maxCount: 1 },
-    { name: 'galleryImage2', maxCount: 1 }
-  ]),
-  (req, res) => {
-    try {
-      const current = loadContent();
-      const files = req.files || {};
+app.post('/admin/save', requireAdmin, upload.any(), (req, res) => {
+  try {
+    const current = loadContent();
+    const files = Array.isArray(req.files) ? req.files : [];
 
-      const updatedSite = {
-        ownerName: cleanText(req.body.ownerName) || current.site.ownerName,
-        siteTitle: cleanText(req.body.siteTitle) || current.site.siteTitle,
-        heroTitle: cleanText(req.body.heroTitle) || current.site.heroTitle,
-        tagline: cleanText(req.body.tagline) || current.site.tagline,
-        subtitle: cleanText(req.body.subtitle) || current.site.subtitle,
-        program: cleanText(req.body.program) || current.site.program,
-        professionalTitle: cleanText(req.body.professionalTitle) || current.site.professionalTitle,
-        email: cleanText(req.body.email) || current.site.email,
-        phone: cleanText(req.body.phone) || current.site.phone,
-        linkedinUrl: cleanText(req.body.linkedinUrl) || current.site.linkedinUrl,
-        resumeUrl: cleanText(req.body.resumeUrl) || current.site.resumeUrl,
-        coverLetterUrl: cleanText(req.body.coverLetterUrl) || current.site.coverLetterUrl,
-        footerNote: cleanText(req.body.footerNote) || current.site.footerNote,
-        heroVideo:
-          getUploadedPath(files, 'heroVideoFile') ||
-          cleanText(req.body.heroVideo) ||
-          current.site.heroVideo,
-        heroPoster:
-          getUploadedPath(files, 'heroPosterFile') ||
-          cleanText(req.body.heroPoster) ||
-          current.site.heroPoster,
-        profileImage:
-          getUploadedPath(files, 'profileImageFile') ||
-          cleanText(req.body.profileImage) ||
-          current.site.profileImage,
-        featureBackground:
-          getUploadedPath(files, 'featureBackgroundFile') ||
-          cleanText(req.body.featureBackground) ||
-          current.site.featureBackground
-      };
+    const updatedSite = {
+      ownerName: cleanText(req.body.ownerName) || current.site.ownerName,
+      siteTitle: cleanText(req.body.siteTitle) || current.site.siteTitle,
+      heroTitle: cleanText(req.body.heroTitle) || current.site.heroTitle,
+      tagline: cleanText(req.body.tagline) || current.site.tagline,
+      subtitle: cleanText(req.body.subtitle) || current.site.subtitle,
+      program: cleanText(req.body.program) || current.site.program,
+      professionalTitle: cleanText(req.body.professionalTitle) || current.site.professionalTitle,
+      email: cleanText(req.body.email) || current.site.email,
+      phone: cleanText(req.body.phone) || current.site.phone,
+      linkedinUrl: cleanText(req.body.linkedinUrl) || current.site.linkedinUrl,
+      resumeUrl: cleanText(req.body.resumeUrl) || current.site.resumeUrl,
+      coverLetterUrl: cleanText(req.body.coverLetterUrl) || current.site.coverLetterUrl,
+      footerNote: cleanText(req.body.footerNote) || current.site.footerNote,
+      heroVideo:
+        getUploadedPath(files, 'heroVideoFile') ||
+        cleanText(req.body.heroVideo) ||
+        current.site.heroVideo,
+      heroPoster:
+        getUploadedPath(files, 'heroPosterFile') ||
+        cleanText(req.body.heroPoster) ||
+        current.site.heroPoster,
+      profileImage:
+        getUploadedPath(files, 'profileImageFile') ||
+        cleanText(req.body.profileImage) ||
+        current.site.profileImage,
+      featureBackground:
+        getUploadedPath(files, 'featureBackgroundFile') ||
+        cleanText(req.body.featureBackground) ||
+        current.site.featureBackground
+    };
 
-      const education = cleanItemArray(
-        parseJsonField(req.body.educationJson, current.education),
-        ['degree', 'school', 'year', 'description']
-      );
+    const education = cleanItemArray(
+      parseJsonField(req.body.educationJson, current.education),
+      ['degree', 'school', 'year', 'description']
+    );
 
-      const workExperience = cleanItemArray(
-        parseJsonField(req.body.workExperienceJson, current.workExperience),
-        ['role', 'employer', 'dates', 'description']
-      );
+    const workExperience = cleanItemArray(
+      parseJsonField(req.body.workExperienceJson, current.workExperience),
+      ['role', 'employer', 'dates', 'description']
+    );
 
-      const projects = cleanItemArray(
-        parseJsonField(req.body.projectsJson, current.projects),
-        ['title', 'description', 'link']
-      );
+    const projects = cleanItemArray(
+      parseJsonField(req.body.projectsJson, current.projects),
+      ['title', 'description', 'link']
+    );
 
-      const volunteerWork = cleanItemArray(
-        parseJsonField(req.body.volunteerWorkJson, current.volunteerWork),
-        ['organization', 'role', 'dates', 'description']
-      );
+    const volunteerWork = cleanItemArray(
+      parseJsonField(req.body.volunteerWorkJson, current.volunteerWork),
+      ['organization', 'role', 'dates', 'description']
+    );
 
-      const weeks = (Array.isArray(parseJsonField(req.body.weeksJson, current.weeks))
-        ? parseJsonField(req.body.weeksJson, current.weeks)
-        : []
-      )
-        .map((week) => ({
-          title: cleanText(week?.title),
-          summary: cleanText(week?.summary),
-          details: Array.isArray(week?.details)
-            ? week.details.map((detail) => cleanText(detail)).filter(Boolean)
-            : cleanListFromTextarea(week?.details || '')
-        }))
-        .filter((week) => week.title || week.summary || week.details.length);
+    const references = cleanItemArray(
+      parseJsonField(req.body.referencesJson, current.references),
+      ['name', 'organization', 'role', 'connection', 'email', 'phone', 'linkedinUrl', 'notes']
+    );
 
-      const photoGalleryDraft = cleanItemArray(
-        parseJsonField(req.body.photoGalleryJson, current.photoGallery),
-        ['title', 'caption', 'image']
-      );
+    const recommendationLettersInput = parseJsonField(
+      req.body.recommendationLettersJson,
+      current.recommendationLetters
+    );
 
-      const galleryFromCurrent = Array.isArray(current.photoGallery) ? current.photoGallery : [];
-      const mergedGallery = [0, 1, 2].map((index) => {
-        const fromForm = photoGalleryDraft[index] || {};
-        const fromCurrent = galleryFromCurrent[index] || {};
-        const uploadedPath = getUploadedPath(files, `galleryImage${index}`);
-        const manualImage = cleanText(req.body[`galleryImageUrl${index}`]);
+    const recommendationLetters = (Array.isArray(recommendationLettersInput) ? recommendationLettersInput : [])
+      .map((item, index) => ({
+        title: cleanText(item?.title),
+        recommenderName: cleanText(item?.recommenderName),
+        relationship: cleanText(item?.relationship),
+        description: cleanText(item?.description),
+        pdfUrl:
+          getUploadedPath(files, `recommendationLetters_pdfFile_${index}`) ||
+          cleanText(item?.pdfUrl)
+      }))
+      .filter((item) => item.title || item.recommenderName || item.relationship || item.description || item.pdfUrl);
+
+    const blogPostsInput = parseJsonField(req.body.blogPostsJson, current.blogPosts);
+    const usedSlugs = new Set();
+
+    const blogPosts = (Array.isArray(blogPostsInput) ? blogPostsInput : [])
+      .map((item, index) => {
+        const body = cleanMultilineText(item?.body);
+        const excerpt = cleanText(item?.excerpt) || stripHtml(body).slice(0, 180);
 
         return {
-          title: cleanText(fromForm.title || fromCurrent.title),
-          caption: cleanText(fromForm.caption || fromCurrent.caption),
-          image: uploadedPath || manualImage || cleanText(fromForm.image || fromCurrent.image)
+          title: cleanText(item?.title),
+          slug: buildUniqueSlug(cleanText(item?.title) || `post-${index + 1}`, usedSlugs),
+          author: cleanText(item?.author) || updatedSite.ownerName,
+          category: cleanText(item?.category),
+          publishDate: cleanText(item?.publishDate),
+          excerpt,
+          body,
+          imageUrl:
+            getUploadedPath(files, `blogPosts_imageFile_${index}`) ||
+            cleanText(item?.imageUrl),
+          videoUrl:
+            getUploadedPath(files, `blogPosts_videoFile_${index}`) ||
+            cleanText(item?.videoUrl)
         };
-      });
+      })
+      .filter((item) => item.title || item.excerpt || item.body || item.imageUrl || item.videoUrl);
 
-      const updatedContent = {
-        ...current,
-        site: updatedSite,
-        introStatement: cleanText(req.body.introStatement) || current.introStatement,
-        toc: cleanItemArray(parseJsonField(req.body.tocJson, current.toc), ['title', 'anchor']),
-        education,
-        workExperience,
-        skills: cleanListFromTextarea(req.body.skillsText),
-        projects,
-        accomplishments: cleanListFromTextarea(req.body.accomplishmentsText),
-        volunteerWork,
-        certifications: cleanListFromTextarea(req.body.certificationsText),
-        photoGallery: mergedGallery,
-        weeks
+    const weeksInput = parseJsonField(req.body.weeksJson, current.weeks);
+    const weeks = (Array.isArray(weeksInput) ? weeksInput : [])
+      .map((week) => ({
+        title: cleanText(week?.title),
+        summary: cleanText(week?.summary),
+        details: Array.isArray(week?.details)
+          ? week.details.map((detail) => cleanText(detail)).filter(Boolean)
+          : cleanListFromTextarea(week?.details || '')
+      }))
+      .filter((week) => week.title || week.summary || week.details.length);
+
+    const photoGalleryDraft = cleanItemArray(
+      parseJsonField(req.body.photoGalleryJson, current.photoGallery),
+      ['title', 'caption', 'image']
+    );
+
+    const galleryFromCurrent = Array.isArray(current.photoGallery) ? current.photoGallery : [];
+    const mergedGallery = [0, 1, 2].map((index) => {
+      const fromForm = photoGalleryDraft[index] || {};
+      const fromCurrent = galleryFromCurrent[index] || {};
+      const uploadedPath = getUploadedPath(files, `galleryImage${index}`);
+      const manualImage = cleanText(req.body[`galleryImageUrl${index}`]);
+
+      return {
+        title: cleanText(fromForm.title || fromCurrent.title),
+        caption: cleanText(fromForm.caption || fromCurrent.caption),
+        image: uploadedPath || manualImage || cleanText(fromForm.image || fromCurrent.image)
       };
+    });
 
-      saveContent(updatedContent);
-      return res.redirect('/admin?message=Changes%20saved%20successfully.');
-    } catch (error) {
-      console.error(error);
-      return res.redirect('/admin?error=Something%20went%20wrong%20while%20saving.');
-    }
+    const updatedCareerPlanning = {
+      targetCareerFieldTitle: cleanText(req.body.careerFieldTitle) || 'Target Career Field',
+      targetCareerFieldSummary: cleanMultilineText(req.body.careerFieldSummary),
+      jobOutlook: cleanMultilineText(req.body.careerJobOutlook),
+      requiredQualifications: cleanListFromTextarea(req.body.careerRequiredQualifications),
+      potentialEmployers: cleanListFromTextarea(req.body.careerPotentialEmployers),
+      shortTermTitle: cleanText(req.body.careerShortTermTitle) || 'Short-Term Career Plan (1–3 Years)',
+      shortTermText: cleanMultilineText(req.body.careerShortTermText),
+      shortTermMilestones: cleanListFromTextarea(req.body.careerShortTermMilestones),
+      longTermTitle: cleanText(req.body.careerLongTermTitle) || 'Long-Term Career Plan (5–10 Years)',
+      longTermText: cleanMultilineText(req.body.careerLongTermText),
+      longTermMilestones: cleanListFromTextarea(req.body.careerLongTermMilestones)
+    };
+
+    const updatedContent = {
+      ...current,
+      site: updatedSite,
+      introStatement: cleanText(req.body.introStatement) || current.introStatement,
+      toc: cleanItemArray(parseJsonField(req.body.tocJson, current.toc), ['title', 'anchor']),
+      education,
+      workExperience,
+      skills: cleanListFromTextarea(req.body.skillsText),
+      projects,
+      accomplishments: cleanListFromTextarea(req.body.accomplishmentsText),
+      volunteerWork,
+      certifications: cleanListFromTextarea(req.body.certificationsText),
+      photoGallery: mergedGallery,
+      weeks,
+      references,
+      recommendationLetters,
+      blogPosts,
+      careerPlanning: updatedCareerPlanning
+    };
+
+    saveContent(updatedContent);
+    return res.redirect('/admin?message=Changes%20saved%20successfully.');
+  } catch (error) {
+    console.error(error);
+    return res.redirect('/admin?error=Something%20went%20wrong%20while%20saving.');
   }
-);
+});
+
+
+app.get('/blog/:slug', (req, res) => {
+  const content = loadContent();
+  const post = (content.blogPosts || []).find((item) => item.slug === req.params.slug);
+
+  if (!post) {
+    return res.status(404).render('login', {
+      error: 'Blog post not found.'
+    });
+  }
+
+  return res.render('blog-post', {
+    content,
+    post,
+    isAdmin: isAdmin(req)
+  });
+});
 
 app.use((_req, res) => {
   res.status(404).render('login', {

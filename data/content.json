@@ -10,8 +10,8 @@
     "email": "fialaj@my.lowercolumbia.edu",
     "phone": "503-462-8851",
     "linkedinUrl": "https://www.linkedin.com/in/jennifer-fiala-93b2b6404/",
-    "resumeUrl": "https://docs.google.com/document/d/1_eVl99BWJDg3oaB8CU2-pK66w4PNsgN7fz6EatGoyCk/edit?usp=sharing",
-    "coverLetterUrl": "https://docs.google.com/document/d/1bruo4Az5hC7m68Zcz0cPaxQ9rkaBt3b9Ih0idq2d7eU/edit?usp=sharing",
+    "resumeUrl": "/Resume.pdf",
+    "coverLetterUrl": "/CoverLetter.pdf",
     "footerNote": "Built with heart, purpose, and passion.",
     "heroVideo": "/uploads/1776273086978-0-waterfall-dorrigo-national-park-1280x7.mp4",
     "heroPoster": "/uploads/1776275639931-263-1.jpg",
@@ -37,7 +37,7 @@
       "anchor": "experience"
     },
     {
-      "title": "Skills",
+      "title": "Skills & Competencies",
       "anchor": "skills"
     },
     {
@@ -45,8 +45,16 @@
       "anchor": "resume"
     },
     {
+      "title": "References and Recommendations",
+      "anchor": "references"
+    },
+    {
       "title": "Academic Projects & Work Samples",
       "anchor": "projects"
+    },
+    {
+      "title": "Blog",
+      "anchor": "blog"
     },
     {
       "title": "Accomplishments",
@@ -59,6 +67,10 @@
     {
       "title": "Certifications",
       "anchor": "certifications"
+    },
+    {
+      "title": "Career Planning",
+      "anchor": "career-planning"
     },
     {
       "title": "Contact Info",
@@ -105,12 +117,12 @@
     "Time Management",
     "Organization",
     "Equity & Inclusion",
-    "Strong problem-solving and decision-making",
+    "Strong Problem-Solving and Decision-Making",
     "Office Administration",
-    "Analytical and leadership skills",
+    "Analytical and Leadership skills",
     "Proficient in Microsoft Office Suite",
-    "Health information systems",
-    "Ability to multitask and manage multiple projects"
+    "Health Information Systems",
+    "Ability to Multitask and Manage Multiple Projects"
   ],
   "projects": [
     {
@@ -214,5 +226,40 @@
         "Showcased certifications, skills, resume, and sample cover letter references."
       ]
     }
-  ]
+  ],
+  "references": [
+    {
+      "name": "Aaliyah Hänni",
+      "organization": "Kelso Youth Soccer Camp",
+      "role": "Web Developer",
+      "connection": "Collaborators for Kelso Youth Soccer",
+      "email": "aaliyahhanni@gmail.com",
+      "phone": "+41 76 397 94 12",
+      "linkedinUrl": "https://www.linkedin.com/in/aaliyah-h%C3%A4nni/?originalSubdomain=ch",
+      "notes": ""
+    }
+  ],
+  "recommendationLetters": [
+    {
+      "title": "LCC Scholarship Recommendation",
+      "recommenderName": "Aaliyah Hänni",
+      "relationship": "Collaborators for Kelso Youth Soccer",
+      "description": "",
+      "pdfUrl": "/uploads/1776792432284-letter-of-recommendation.pdf"
+    }
+  ],
+  "blogPosts": [],
+  "careerPlanning": {
+    "targetCareerFieldTitle": "Target Career Field",
+    "targetCareerFieldSummary": "",
+    "jobOutlook": "",
+    "requiredQualifications": [],
+    "potentialEmployers": [],
+    "shortTermTitle": "Short-Term Career Plan (1–3 Years)",
+    "shortTermText": "",
+    "shortTermMilestones": [],
+    "longTermTitle": "Long-Term Career Plan (5–10 Years)",
+    "longTermText": "",
+    "longTermMilestones": []
+  }
 }
