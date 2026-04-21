@@ -3,16 +3,16 @@
     "ownerName": "Jennifer Fiala",
     "siteTitle": "Jennifer’s Portfolio",
     "heroTitle": "My Portfolio",
-    "tagline": "Inspiring Growth, Empowering Success, Leading with Heart.",
-    "subtitle": "Inspiring Growth, Empowering Success, Leading with Heart.",
+    "tagline": "Inspiring Growth. Empowering Success. Leading with Empathy.",
+    "subtitle": "Inspiring Growth. Empowering Success. Leading with Empathy.",
     "program": "Organizational Leadership & Technical Management",
     "professionalTitle": "Advocate • Mentor • Community Leader",
     "email": "fialaj@my.lowercolumbia.edu",
     "phone": "503-462-8851",
-    "linkedinUrl": "https://www.linkedin.com/",
-    "resumeUrl": "https://portfolium.com/fialaj?ref=fialaj",
-    "coverLetterUrl": "",
-    "footerNote": "Built with heart, growth, and purpose.",
+    "linkedinUrl": "https://www.linkedin.com/in/jennifer-fiala-93b2b6404/",
+    "resumeUrl": "https://docs.google.com/document/d/1_eVl99BWJDg3oaB8CU2-pK66w4PNsgN7fz6EatGoyCk/edit?usp=sharing",
+    "coverLetterUrl": "https://docs.google.com/document/d/1bruo4Az5hC7m68Zcz0cPaxQ9rkaBt3b9Ih0idq2d7eU/edit?usp=sharing",
+    "footerNote": "Built with heart, purpose, and passion.",
     "heroVideo": "/uploads/1776273086978-0-waterfall-dorrigo-national-park-1280x7.mp4",
     "heroPoster": "/uploads/1776275639931-263-1.jpg",
     "profileImage": "/uploads/1776275691907-chatgpt-image-apr-15-2026-07-54-37-pm.png",
@@ -84,7 +84,7 @@
       "role": "Career & Technical Scholar Lead & Mentor",
       "employer": "Washington State Opportunity Scholarship (WSOS)",
       "dates": "September 22, 2023 – Present",
-      "description": "Serve as a peer mentor to more than 200 college students, helping them navigate academic and professional resources, supporting scholars in college and WSOS processes, sharing opportunities, and building a sense of community."
+      "description": "Serve as a peer mentor to 200+ college students, helping Scholars to navigate academic and professional resources, supporting them in college and WSOS processes, sharing opportunities, and building a sense of community."
     },
     {
       "role": "Home Care Aid",
@@ -121,7 +121,7 @@
     {
       "title": "Resume & Sample Cover Letter",
       "description": "Downloadable materials that support professional opportunities and showcase readiness for future leadership roles.",
-      "link": "https://portfolium.com/fialaj?ref=fialaj"
+      "link": ""
     }
   ],
   "accomplishments": [
@@ -171,30 +171,31 @@
   "certifications": [
     "Mental Health First Aid",
     "Home Care Aid",
+    "Basic Life Support",
     "Valid Driver’s License",
     "Microsoft Office Suite (Word, Excel, PowerPoint, OneNote, Teams, & Outlook)"
   ],
   "photoGallery": [
     {
-      "title": "Leadership in Action",
-      "caption": "Add a professional or event photo here.",
-      "image": "/images/gallery-1.png"
+      "title": "Coming Soon",
+      "caption": "Caption1",
+      "image": "/uploads/1776481019153-bookofdiscovery.jpg"
     },
     {
-      "title": "Community Impact",
-      "caption": "Use this space for volunteer, school, or mentorship photos.",
-      "image": "/images/gallery-2.png"
+      "title": "Coming Soon",
+      "caption": "Caption2",
+      "image": "/uploads/1776481043119-bookofdiscovery.jpg"
     },
     {
-      "title": "Academic Journey",
-      "caption": "Highlight your college experience, projects, or milestones.",
-      "image": "/images/gallery-3.png"
+      "title": "Coming Soon",
+      "caption": "Caption3",
+      "image": "/uploads/1776481043119-bookofdiscovery.jpg"
     }
   ],
   "weeks": [
     {
       "title": "Week 1",
-      "summary": "I am working on putting together a website for my Digital Portfolio. For this first week’s assignment, I am submitting this document with the necessary portfolio components. (Website link coming soon!)",
+      "summary": "I am working on putting together a website for my Digital Portfolio. For this first week’s assignment, I am submitting this document with the necessary portfolio components.",
       "details": [
         "Cover Page & Table of Contents",
         "Name: Jennifer Fiala",
