@@ -12,7 +12,7 @@
     "linkedinUrl": "https://www.linkedin.com/in/jennifer-fiala-93b2b6404/",
     "resumeUrl": "/Resume.pdf",
     "coverLetterUrl": "/CoverLetter.pdf",
-    "footerNote": "Built with heart, purpose, and passion.",
+    "footerNote": "Built with Heart, Purpose, and Passion",
     "heroVideo": "/uploads/1776273086978-0-waterfall-dorrigo-national-park-1280x7.mp4",
     "heroPoster": "/uploads/1776275639931-263-1.jpg",
     "profileImage": "/uploads/1776275691907-chatgpt-image-apr-15-2026-07-54-37-pm.png",
@@ -133,6 +133,11 @@
     {
       "title": "Resume & Sample Cover Letter",
       "description": "Downloadable materials that support professional opportunities and showcase readiness for future leadership roles.",
+      "link": ""
+    },
+    {
+      "title": "Capstone",
+      "description": "",
       "link": ""
     }
   ],
