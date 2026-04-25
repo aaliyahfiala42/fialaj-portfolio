@@ -1,30 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= content.site.siteTitle %></title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/css/styles.css" />
-  </head>
-  <body>
-    <header class="topbar">
-      <div class="container topbar-inner">
-        <a class="brand" href="#home"><%= content.site.ownerName %> Portfolio</a>
-        <nav class="nav-links">
-<!--           <% content.toc.forEach((item) => { %>
-            <a href="#<%= item.anchor %>"><%= item.title %></a>
-          <% }) %> -->
-          <% if (isAdmin) { %>
-            <a class="nav-cta" href="/admin">Admin</a>
-          <% } else { %>
-            <a class="nav-cta" href="/login">Admin Login</a>
-          <% } %>
-        </nav>
-      </div>
-    </header>
+<%- include('partials/head', { content }) %>
+
+<%- include('partials/navbar', { content, isAdmin, pageType: 'home' }) %>
 
     <main>
       <section id="home" class="hero-section">
@@ -347,24 +323,39 @@
         </div>
       </section>
 
-      <section id="volunteer" class="section">
-        <div class="container">
-          <div class="section-heading">
-            <p class="eyebrow">Clubs, Affiliations, & Volunteer Work</p>
-            <h2>Service-Centered Leadership</h2>
+<section id="volunteer" class="section">
+  <div class="container">
+    <div class="section-heading">
+      <p class="eyebrow">Clubs, Affiliations, & Volunteer Work</p>
+      <h2>Service-Centered Leadership</h2>
+    </div>
+
+    <div class="card-grid three-up">
+      <% content.volunteerWork.forEach((item) => { %>
+        <article class="info-card hover-card volunteer-card">
+          <div class="volunteer-logo-wrap">
+            <% if (item.logoUrl) { %>
+              <img
+                src="<%= item.logoUrl %>"
+                alt="<%= item.organization %> logo"
+                class="volunteer-logo"
+              />
+            <% } else { %>
+              <div class="volunteer-logo-placeholder" aria-hidden="true">
+                <i class="fa-solid fa-seedling"></i>
+              </div>
+            <% } %>
           </div>
-          <div class="card-grid three-up">
-            <% content.volunteerWork.forEach((item) => { %>
-              <article class="info-card hover-card volunteer-card">
-                <p class="card-kicker"><%= item.dates %></p>
-                <h3><%= item.organization %></h3>
-                <p class="muted"><%= item.role %></p>
-                <p><%= item.description %></p>
-              </article>
-            <% }) %>
-          </div>
-        </div>
-      </section>
+
+          <p class="card-kicker"><%= item.dates %></p>
+          <h3><%= item.organization %></h3>
+          <p class="muted"><%= item.role %></p>
+          <p><%= item.description %></p>
+        </article>
+      <% }) %>
+    </div>
+  </div>
+</section>
 
 <!--       <section class="section alt-surface">
         <div class="container">
@@ -508,11 +499,48 @@
       </section>
     </main>
 
-    <footer class="footer">
-      <div class="container footer-inner">
-        <p><%= content.site.ownerName %> • <%= content.site.program %></p>
-        <p><%= content.site.footerNote %></p>
-      </div>
-    </footer>
-  </body>
+<%- include('partials/footer', { content, isAdmin }) %>
+
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>
+  (() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const applyAos = (selector, animation, delayStep = 0) => {
+      document.querySelectorAll(selector).forEach((element, index) => {
+        if (!element.hasAttribute('data-aos')) {
+          element.setAttribute('data-aos', animation);
+        }
+
+        if (delayStep && !element.hasAttribute('data-aos-delay')) {
+          element.setAttribute('data-aos-delay', String(Math.min(index * delayStep, 350)));
+        }
+      });
+    };
+
+    applyAos('.hero-copy', 'fade-right');
+    applyAos('.hero-profile', 'fade-left');
+
+    applyAos('.section-heading', 'fade-up');
+    applyAos('.feature-banner-inner', 'zoom-in');
+
+    applyAos('.toc-card', 'fade-up', 60);
+    applyAos('.info-card', 'fade-up', 70);
+    applyAos('.experience-card', 'fade-up', 70);
+    applyAos('.skill-tag', 'zoom-in', 45);
+    applyAos('.check-card', 'fade-up', 65);
+    applyAos('.contact-card', 'fade-left');
+    applyAos('.button-cluster', 'fade-left');
+
+    AOS.init({
+      duration: 750,
+      easing: 'ease-out-cubic',
+      offset: 80,
+      once: true,
+      mirror: false,
+      disable: prefersReducedMotion
+    });
+  })();
+</script>
+</body>
 </html>

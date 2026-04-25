@@ -1,0 +1,105 @@
+<%
+  const navItems = content.toc || [];
+  const isBlogPage = typeof pageType !== 'undefined' && pageType === 'blog';
+  const homePrefix = isBlogPage ? '/#' : '#';
+  const brandHref = isBlogPage ? '/#home' : '#home';
+  const logoUrl = '/logo.png';
+%>
+
+<header class="topbar">
+  <div class="container topbar-inner">
+    <a class="brand" href="<%= brandHref %>">
+      <span class="brand-logo-wrap" aria-hidden="true">
+        <% if (logoUrl) { %>
+          <img src="<%= logoUrl %>" alt="" class="brand-logo" />
+        <% } %>
+      </span>
+
+      <span class="brand-text">
+        <span class="brand-name"><%= content.site.ownerName %></span>
+        <small>Portfolio</small>
+      </span>
+    </a>
+
+    <nav class="site-nav" data-site-nav aria-label="Main navigation">
+      <% if (isBlogPage) { %>
+        <a class="nav-utility-link" href="/#blog">Back to Blog</a>
+      <% } %>
+
+      <button
+        class="nav-menu-button"
+        type="button"
+        data-nav-open
+        aria-controls="siteSidebar"
+        aria-expanded="false"
+        aria-label="Open menu"
+      >
+        <i class="fa-solid fa-bars" aria-hidden="true"></i>
+      </button>
+
+      <div class="nav-scrim" data-nav-scrim></div>
+
+      <aside id="siteSidebar" class="nav-sidebar" data-nav-drawer aria-hidden="true">
+        <div class="nav-sidebar-top">
+          <div>
+            <p class="eyebrow">Table of Contents</p>
+            <h2>Explore Portfolio</h2>
+          </div>
+
+          <button class="nav-close-button" type="button" data-nav-close aria-label="Close menu">
+            ×
+          </button>
+        </div>
+
+        <a class="nav-home-link" href="<%= brandHref %>" data-nav-link>
+          <span class="nav-index">00</span>
+          <span>Home</span>
+        </a>
+
+        <div class="nav-sidebar-links">
+          <% navItems.forEach((item, index) => { %>
+            <a href="<%= homePrefix + item.anchor %>" data-nav-link>
+              <span class="nav-index"><%= String(index + 1).padStart(2, '0') %></span>
+              <span><%= item.title %></span>
+            </a>
+          <% }) %>
+        </div>
+      </aside>
+    </nav>
+  </div>
+</header>
+
+<script>
+  (() => {
+    const nav = document.querySelector('[data-site-nav]');
+    if (!nav) return;
+
+    const openButton = nav.querySelector('[data-nav-open]');
+    const closeButton = nav.querySelector('[data-nav-close]');
+    const drawer = nav.querySelector('[data-nav-drawer]');
+    const scrim = nav.querySelector('[data-nav-scrim]');
+    const links = nav.querySelectorAll('[data-nav-link]');
+
+    const setOpen = (isOpen) => {
+      nav.classList.toggle('is-open', isOpen);
+      openButton.setAttribute('aria-expanded', String(isOpen));
+      drawer.setAttribute('aria-hidden', String(!isOpen));
+      document.body.classList.toggle('nav-lock', isOpen);
+    };
+
+    openButton.addEventListener('click', () => {
+      setOpen(!nav.classList.contains('is-open'));
+    });
+
+    closeButton.addEventListener('click', () => setOpen(false));
+    scrim.addEventListener('click', () => setOpen(false));
+
+    links.forEach((link) => {
+      link.addEventListener('click', () => setOpen(false));
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') setOpen(false);
+    });
+  })();
+</script>

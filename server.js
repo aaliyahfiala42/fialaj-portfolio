@@ -191,8 +191,12 @@ app.get('/login', (req, res) => {
   if (isAdmin(req)) {
     return res.redirect('/admin');
   }
+  const content = loadContent();
 
   return res.render('login', {
+        content,
+            isAdmin: isAdmin(req),
+
     error: req.query.error || ''
   });
 });
@@ -219,8 +223,11 @@ app.get('/logout', (req, res) => {
 
 app.get('/admin', requireAdmin, (req, res) => {
   const content = loadContent();
+  
   res.render('admin', {
     content,
+                isAdmin: isAdmin(req),
+
     message: req.query.message || '',
     error: req.query.error || ''
   });
@@ -278,10 +285,19 @@ app.post('/admin/save', requireAdmin, upload.any(), (req, res) => {
       ['title', 'description', 'link']
     );
 
-    const volunteerWork = cleanItemArray(
-      parseJsonField(req.body.volunteerWorkJson, current.volunteerWork),
-      ['organization', 'role', 'dates', 'description']
-    );
+    const volunteerWorkInput = parseJsonField(req.body.volunteerWorkJson, current.volunteerWork);
+
+    const volunteerWork = (Array.isArray(volunteerWorkInput) ? volunteerWorkInput : [])
+      .map((item, index) => ({
+        organization: cleanText(item?.organization),
+        role: cleanText(item?.role),
+        dates: cleanText(item?.dates),
+        description: cleanText(item?.description),
+        logoUrl:
+          getUploadedPath(files, `volunteerWork_logoFile_${index}`) ||
+          cleanText(item?.logoUrl)
+      }))
+      .filter((item) => item.organization || item.role || item.dates || item.description || item.logoUrl);
 
     const references = cleanItemArray(
       parseJsonField(req.body.referencesJson, current.references),

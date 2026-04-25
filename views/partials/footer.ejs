@@ -1,0 +1,17 @@
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-copy">
+      <p><%= content.site.ownerName %> • <%= content.site.program %></p>
+      <p><%= content.site.footerNote %></p>
+    </div>
+
+    <div class="footer-actions">
+      <% if (isAdmin) { %>
+        <a class="footer-admin-link" href="/admin">Admin Dashboard</a>
+        <a class="footer-admin-link" href="/logout">Logout</a>
+      <% } else { %>
+        <a class="footer-admin-link" href="/login">Admin Login</a>
+      <% } %>
+    </div>
+  </div>
+</footer>

@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="/css/styles.css" />
   </head>
   <body class="login-body">
+    <%- include('partials/navbar', { content, isAdmin, pageType: 'home' }) %>
+
     <main class="login-shell">
       <section class="login-card hover-card">
         <p class="eyebrow">Admin Area</p>
@@ -39,5 +41,7 @@
         </div>
       </section>
     </main>
+    <%- include('partials/footer', { content }) %>
+
   </body>
 </html>

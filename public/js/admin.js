@@ -51,7 +51,22 @@
         { key: 'organization', label: 'Organization' },
         { key: 'role', label: 'Role' },
         { key: 'dates', label: 'Dates' },
-        { key: 'description', label: 'Description', type: 'textarea' }
+        { key: 'description', label: 'Description', type: 'textarea' },
+        {
+          key: 'logoUrl',
+          label: 'Logo URL',
+          type: 'text',
+          placeholder: '/uploads/example-logo.png'
+        },
+        {
+          key: 'logoFile',
+          label: 'Upload Logo',
+          type: 'file',
+          accept: 'image/png,image/jpeg,image/webp,image/svg+xml',
+          previewKey: 'logoUrl',
+          previewLabel: 'Open current logo',
+          previewType: 'image'
+        }
       ]
     },
     weeks: {
@@ -115,7 +130,8 @@
           type: 'file',
           accept: 'image/*',
           previewKey: 'imageUrl',
-          previewLabel: 'Open current photo'
+          previewLabel: 'Open current photo',
+          previewType: 'image'
         },
         {
           key: 'videoFile',
@@ -131,6 +147,7 @@
   };
 
   const state = {};
+
   Object.keys(repeaterConfig).forEach((key) => {
     state[key] = Array.isArray(initialData[key]) ? initialData[key] : [];
   });
@@ -154,6 +171,36 @@
     return field.type;
   }
 
+  function renderFilePreview(field, currentValue, item) {
+    if (!currentValue) return '';
+
+    const safeUrl = escapeHtml(currentValue);
+    const safeAlt = escapeHtml(
+      item.organization ||
+        item.title ||
+        item.name ||
+        field.previewLabel ||
+        'Current uploaded file'
+    );
+
+    if (field.previewType === 'image') {
+      return `
+        <div class="admin-file-preview">
+          <img src="${safeUrl}" alt="${safeAlt}" class="admin-logo-preview" />
+          <a class="text-link" href="${safeUrl}" target="_blank" rel="noreferrer">
+            ${field.previewLabel || 'Open current image'}
+          </a>
+        </div>
+      `;
+    }
+
+    return `
+      <a class="text-link" href="${safeUrl}" target="_blank" rel="noreferrer">
+        ${field.previewLabel || 'Open current file'}
+      </a>
+    `;
+  }
+
   function renderFieldMarkup(group, field, item, index) {
     const value =
       field.type === 'textarea' || field.type === 'richtext'
@@ -166,7 +213,7 @@
       return `
         <label style="grid-column: 1 / -1;">
           <span>${field.label}</span>
-          ${currentValue ? `<a class="text-link" href="${escapeHtml(currentValue)}" target="_blank" rel="noreferrer">${field.previewLabel || 'Open current file'}</a>` : ''}
+          ${renderFilePreview(field, currentValue, item)}
           <input type="file" name="${group}_${field.key}_${index}" accept="${field.accept || '*/*'}" />
         </label>
       `;
@@ -199,7 +246,14 @@
     return `
       <label>
         <span>${field.label}</span>
-        <input type="${getInputType(field)}" value="${escapeHtml(value)}" data-key="${field.key}" data-index="${index}" data-group="${group}" />
+        <input
+          type="${getInputType(field)}"
+          value="${escapeHtml(value)}"
+          data-key="${field.key}"
+          data-index="${index}"
+          data-group="${group}"
+          ${field.placeholder ? `placeholder="${escapeHtml(field.placeholder)}"` : ''}
+        />
       </label>
     `;
   }
@@ -226,7 +280,7 @@
 
       card.innerHTML = `
         <div class="repeater-card-top">
-          <strong>Item ${index + 1}</strong>
+          <strong>${getRepeaterTitle(key, item, index)}</strong>
           <button type="button" class="remove-item" data-group="${key}" data-index="${index}">Remove</button>
         </div>
         <div class="admin-grid two-col-form">
@@ -236,6 +290,16 @@
 
       container.appendChild(card);
     });
+  }
+
+  function getRepeaterTitle(key, item, index) {
+    if (key === 'volunteerWork' && item.organization) return escapeHtml(item.organization);
+    if (key === 'blogPosts' && item.title) return escapeHtml(item.title);
+    if (key === 'projects' && item.title) return escapeHtml(item.title);
+    if (key === 'references' && item.name) return escapeHtml(item.name);
+    if (key === 'education' && item.degree) return escapeHtml(item.degree);
+    if (key === 'workExperience' && item.role) return escapeHtml(item.role);
+    return `Item ${index + 1}`;
   }
 
   function addItem(key) {
@@ -256,9 +320,10 @@
     const index = Number(target.dataset.index);
     const key = target.dataset.key;
     const config = repeaterConfig[group];
-    const fieldConfig = config.fields.find((field) => field.key === key);
 
-    if (!state[group] || Number.isNaN(index)) return;
+    if (!state[group] || Number.isNaN(index) || !config) return;
+
+    const fieldConfig = config.fields.find((field) => field.key === key);
 
     if (fieldConfig && fieldConfig.serializeAsList) {
       state[group][index][key] = target.value
@@ -284,6 +349,7 @@
   function insertText(textarea, text) {
     const start = textarea.selectionStart || 0;
     const end = textarea.selectionEnd || 0;
+
     textarea.setRangeText(text, start, end, 'end');
     textarea.focus();
     textarea.dispatchEvent(new Event('input', { bubbles: true }));
@@ -332,12 +398,15 @@
     const group = button.dataset.group;
     const index = Number(button.dataset.index);
 
+    if (!state[group] || Number.isNaN(index)) return;
+
     state[group].splice(index, 1);
     renderRepeater(group);
   });
 
   function collectGalleryData() {
     const cards = document.querySelectorAll('.admin-gallery-grid .media-card');
+
     return Array.from(cards).map((card, index) => ({
       title: card.querySelector(`.gallery-title[data-index="${index}"]`)?.value || '',
       caption: card.querySelector(`.gallery-caption[data-index="${index}"]`)?.value || '',
@@ -348,12 +417,14 @@
   form.addEventListener('submit', () => {
     Object.entries(repeaterConfig).forEach(([key, config]) => {
       const hidden = document.getElementById(config.hiddenId);
+
       if (hidden) {
         hidden.value = JSON.stringify(state[key]);
       }
     });
 
     const galleryHidden = document.getElementById('photoGalleryJson');
+
     if (galleryHidden) {
       galleryHidden.value = JSON.stringify(collectGalleryData());
     }

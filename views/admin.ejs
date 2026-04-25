@@ -1,14 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Portfolio Admin</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/css/styles.css" />
-  </head>
+<%- include('partials/head', { content }) %>
+
   <body class="admin-body">
     <header class="admin-topbar">
       <div class="container admin-topbar-inner">
@@ -240,6 +231,8 @@
             <button type="button" class="button button-secondary add-item" data-target="volunteerWork">Add Volunteer Role</button>
           </div>
           <div id="volunteerWorkContainer" class="repeater-grid"></div>
+        <label>
+
         </section>
 <!-- 
         <section class="admin-card hover-card">
@@ -385,6 +378,7 @@
         </div>
       </form>
     </main>
+<%- include('partials/footer', { content }) %>
 
     <script id="admin-data" type="application/json"><%- JSON.stringify(content) %></script>
     <script src="/js/admin.js"></script>

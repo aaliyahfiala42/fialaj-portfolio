@@ -1,28 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= post.title %> | <%= content.site.siteTitle %></title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/css/styles.css" />
-  </head>
-  <body>
-    <header class="topbar">
-      <div class="container topbar-inner">
-        <a class="brand" href="/#home"><%= content.site.ownerName %> Portfolio</a>
-        <nav class="nav-links">
-          <a href="/#blog">Back to Home</a>
-          <% if (isAdmin) { %>
-            <a class="nav-cta" href="/admin">Admin</a>
-          <% } else { %>
-            <a class="nav-cta" href="/login">Admin Login</a>
-          <% } %>
-        </nav>
-      </div>
-    </header>
+<%- include('partials/head', { content }) %>
+
+<%- include('partials/navbar', { content, pageType: 'blog' }) %>
 
     <main>
       <section class="section">
@@ -69,11 +47,27 @@
       </section>
     </main>
 
-    <footer class="footer">
-      <div class="container footer-inner">
-        <p><%= content.site.ownerName %> • <%= content.site.program %></p>
-        <p><%= content.site.footerNote %></p>
-      </div>
-    </footer>
-  </body>
+<%- include('partials/footer', { content, isAdmin }) %>
+
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>
+  (() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    document.querySelectorAll('.blog-card, .blog-post-media, .section-heading').forEach((element, index) => {
+      element.setAttribute('data-aos', index === 0 ? 'fade-up' : 'zoom-in');
+      element.setAttribute('data-aos-delay', String(Math.min(index * 80, 300)));
+    });
+
+    AOS.init({
+      duration: 750,
+      easing: 'ease-out-cubic',
+      offset: 80,
+      once: true,
+      mirror: false,
+      disable: prefersReducedMotion
+    });
+  })();
+</script>
+</body>
 </html>

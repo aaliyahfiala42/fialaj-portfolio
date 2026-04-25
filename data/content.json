@@ -126,16 +126,6 @@
   ],
   "projects": [
     {
-      "title": "Digital Portfolio Website",
-      "description": "A growing digital portfolio that highlights leadership, service, academic progress, and work samples.",
-      "link": ""
-    },
-    {
-      "title": "Resume & Sample Cover Letter",
-      "description": "Downloadable materials that support professional opportunities and showcase readiness for future leadership roles.",
-      "link": ""
-    },
-    {
       "title": "Capstone",
       "description": "",
       "link": ""
@@ -152,37 +142,43 @@
       "organization": "Cowlitz Youth Soccer Association",
       "role": "Treasurer",
       "dates": "2020 – 2024",
-      "description": "Served as treasurer in Longview, Washington, helping support youth athletics and community engagement."
+      "description": "Served as treasurer in Longview, Washington, helping support youth athletics and community engagement.",
+      "logoUrl": "/uploads/1777146906492-cowlitz-logo.jpg"
     },
     {
       "organization": "Kelso Youth Soccer Club",
       "role": "Treasurer",
       "dates": "2020 – 2024",
-      "description": "Managed financial responsibilities and supported local youth soccer programming in Kelso, Washington."
+      "description": "Managed financial responsibilities and supported local youth soccer programming in Kelso, Washington.",
+      "logoUrl": "/uploads/1777146906493-kelso-logo.jpg"
     },
     {
       "organization": "Lower Columbia College Rotaract Club",
       "role": "Member / Secretary",
       "dates": "2022 – 2025",
-      "description": "Supported service projects, student leadership, and community outreach efforts."
+      "description": "Supported service projects, student leadership, and community outreach efforts.",
+      "logoUrl": "/uploads/1777146906494-rotaractlogo.png"
     },
     {
       "organization": "Washington State Opportunity Scholarship (WSOS)",
       "role": "Scholar-Leader",
       "dates": "2023 – Present",
-      "description": "Support scholars in navigating college and WSOS processes, collaborate with staff and leads to find resources, assist scholars in connecting with academic and community support, provide quarterly opportunities, and help create a strong scholar community."
+      "description": "Support scholars in navigating college and WSOS processes, collaborate with staff and leads to find resources, assist scholars in connecting with academic and community support, provide quarterly opportunities, and help create a strong scholar community.",
+      "logoUrl": "/uploads/1777146906496-images.png"
     },
     {
       "organization": "Future Business Leaders of America (FBLA)",
       "role": "Judge",
       "dates": "2024 – Present",
-      "description": "Volunteer judge supporting student achievement and leadership development."
+      "description": "Volunteer judge supporting student achievement and leadership development.",
+      "logoUrl": "/uploads/1777146906496-images.jpeg"
     },
     {
       "organization": "Northwest Athletic Conference",
       "role": "Volunteer",
       "dates": "2023",
-      "description": "Contributed volunteer support for athletic and community events."
+      "description": "Contributed volunteer support for athletic and community events.",
+      "logoUrl": "/uploads/1777146906497-nac.png"
     }
   ],
   "certifications": [
