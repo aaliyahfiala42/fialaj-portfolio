@@ -93,14 +93,33 @@
               <span>LinkedIn URL</span>
               <input type="url" name="linkedinUrl" value="<%= content.site.linkedinUrl %>" />
             </label>
-            <label>
-              <span>Resume URL</span>
-              <input type="text" name="resumeUrl" value="<%= content.site.resumeUrl %>" />
-            </label>
-            <label>
-              <span>Cover Letter URL</span>
-              <input type="text" name="coverLetterUrl" value="<%= content.site.coverLetterUrl %>" />
-            </label>
+          <label>
+            <span>Resume URL</span>
+            <input type="text" name="resumeUrl" value="<%= content.site.resumeUrl || '' %>" />
+            <small>Paste a link or upload a file below.</small>
+          </label>
+
+          <label>
+            <span>Upload Resume</span>
+            <% if (content.site.resumeUrl) { %>
+              <a class="text-link" href="<%= content.site.resumeUrl %>" target="_blank" rel="noreferrer">Open current resume</a>
+            <% } %>
+            <input type="file" name="resumeFile" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+          </label>
+
+          <label>
+            <span>Cover Letter URL</span>
+            <input type="text" name="coverLetterUrl" value="<%= content.site.coverLetterUrl || '' %>" />
+            <small>Paste a link or upload a file below.</small>
+          </label>
+
+          <label>
+            <span>Upload Cover Letter</span>
+            <% if (content.site.coverLetterUrl) { %>
+              <a class="text-link" href="<%= content.site.coverLetterUrl %>" target="_blank" rel="noreferrer">Open current cover letter</a>
+            <% } %>
+            <input type="file" name="coverLetterFile" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+          </label>
           </div>
         </section>
 

@@ -140,20 +140,36 @@
       </section>
 
       <section id="resume" class="section alt-surface">
-        <div class="container resume-grid">
-          <div>
-            <div class="section-heading">
-              <p class="eyebrow">Resume</p>
-              <h2>Professional Documents</h2>
-            </div>
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Resume</p>
+            <h2>Professional Documents</h2>
           </div>
-          <div class="button-cluster">
-            <a class="button button-primary" href="<%= content.site.resumeUrl %>" target="_blank" rel="noreferrer">View Resume</a>
-            <% if (content.site.coverLetterUrl) { %>
-              <a class="button button-secondary" href="<%= content.site.coverLetterUrl %>" target="_blank" rel="noreferrer">View Cover Letter</a>
-            <% } else { %>
-              <span class="button button-secondary button-disabled">Cover Letter Link Coming Soon</span>
-            <% } %>
+
+          <div class="document-grid">
+            <article class="document-card hover-card">
+              <div>
+                <h3>Resume</h3>
+                <p>View Jennifer’s current professional resume.</p>
+                <% if (content.site.resumeUrl) { %>
+                  <a class="button button-primary" href="<%= content.site.resumeUrl %>" target="_blank" rel="noreferrer">Open Resume</a>
+                <% } else { %>
+                  <span class="button button-secondary button-disabled">Resume Coming Soon</span>
+                <% } %>
+              </div>
+            </article>
+
+            <article class="document-card hover-card">
+              <div>
+                <h3>Cover Letter</h3>
+                <p>View Jennifer’s professional cover letter.</p>
+                <% if (content.site.coverLetterUrl) { %>
+                  <a class="button button-secondary" href="<%= content.site.coverLetterUrl %>" target="_blank" rel="noreferrer">Open Cover Letter</a>
+                <% } else { %>
+                  <span class="button button-secondary button-disabled">Cover Letter Coming Soon</span>
+                <% } %>
+              </div>
+            </article>
           </div>
         </div>
       </section>
@@ -245,25 +261,48 @@
         </div>
       </section>
 
-      <section id="projects" class="section alt-surface">
-        <div class="container">
-          <div class="section-heading">
-            <p class="eyebrow">Academic Projects & Work Samples</p>
-            <h2>Portfolio Highlights</h2>
-          </div>
-          <div class="card-grid two-up">
-            <% content.projects.forEach((project) => { %>
-              <article class="info-card hover-card">
+<section id="projects" class="section alt-surface">
+  <div class="container">
+    <div class="section-heading">
+      <p class="eyebrow">Academic Projects & Work Samples</p>
+      <h2>Portfolio Highlights</h2>
+    </div>
+
+    <div class="card-grid two-up">
+      <% if ((content.projects || []).length) { %>
+        <% content.projects.forEach((project) => { %>
+          <article class="info-card hover-card project-card">
+            <div class="project-card-top">
+              <div>
+                <p class="card-kicker">Work Sample</p>
                 <h3><%= project.title %></h3>
-                <p><%= project.description %></p>
-                <% if (project.link) { %>
-                  <a href="<%= project.link %>" target="_blank" rel="noreferrer" class="text-link">Open Project</a>
-                <% } %>
-              </article>
-            <% }) %>
-          </div>
-        </div>
-      </section>
+              </div>
+            </div>
+
+            <% if (project.description) { %>
+              <p><%= project.description %></p>
+            <% } %>
+
+            <div class="project-actions">
+              <% if (project.link) { %>
+                <a href="<%= project.link %>" target="_blank" rel="noreferrer" class="button button-secondary">Open Project Link</a>
+              <% } %>
+
+              <% if (project.fileUrl) { %>
+                <a href="<%= project.fileUrl %>" target="_blank" rel="noreferrer" class="button button-primary">View Project</a>
+              <% } %>
+            </div>
+          </article>
+        <% }) %>
+      <% } else { %>
+        <article class="info-card hover-card">
+          <h3>No projects added yet</h3>
+          <p>Add projects and work sample files from the admin dashboard.</p>
+        </article>
+      <% } %>
+    </div>
+  </div>
+</section>
 
       <section id="blog" class="section">
         <div class="container">
@@ -492,9 +531,14 @@
           <div class="contact-card hover-card">
             <a href="tel:<%= content.site.phone %>"><strong>Phone:</strong> <%= content.site.phone %></a>
             <a href="mailto:<%= content.site.email %>"><strong>Email:</strong> <%= content.site.email %></a>
-            <a href="<%= content.site.linkedinUrl %>" target="_blank" rel="noreferrer"><strong>LinkedIn:</strong> View profile</a>
-            <a href="<%= content.site.resumeUrl %>" target="_blank" rel="noreferrer"><strong>Resume:</strong> Open resume link</a>
-          </div>
+            <% if (content.site.resumeUrl) { %>
+              <a href="<%= content.site.resumeUrl %>" target="_blank" rel="noreferrer"><strong>Resume:</strong> Open resume</a>
+            <% } %>
+
+            <% if (content.site.coverLetterUrl) { %>
+              <a href="<%= content.site.coverLetterUrl %>" target="_blank" rel="noreferrer"><strong>Cover Letter:</strong> Open cover letter</a>
+            <% } %>
+       </div>
         </div>
       </section>
     </main>

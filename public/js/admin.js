@@ -41,7 +41,21 @@
       fields: [
         { key: 'title', label: 'Project Title' },
         { key: 'description', label: 'Description', type: 'textarea' },
-        { key: 'link', label: 'Project Link', type: 'url' }
+        { key: 'link', label: 'Project Link', type: 'url' },
+        {
+          key: 'fileUrl',
+          label: 'Project File URL',
+          type: 'text',
+          placeholder: '/uploads/example-project.pdf'
+        },
+        {
+          key: 'projectFile',
+          label: 'Upload Project File',
+          type: 'file',
+          accept: '.pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.png,.jpg,.jpeg,.webp,.mp4,.mov,application/pdf,image/*,video/*',
+          previewKey: 'fileUrl',
+          previewLabel: 'Open current project file'
+        }
       ]
     },
     volunteerWork: {

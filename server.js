@@ -249,8 +249,15 @@ app.post('/admin/save', requireAdmin, upload.any(), (req, res) => {
       email: cleanText(req.body.email) || current.site.email,
       phone: cleanText(req.body.phone) || current.site.phone,
       linkedinUrl: cleanText(req.body.linkedinUrl) || current.site.linkedinUrl,
-      resumeUrl: cleanText(req.body.resumeUrl) || current.site.resumeUrl,
-      coverLetterUrl: cleanText(req.body.coverLetterUrl) || current.site.coverLetterUrl,
+      resumeUrl:
+        getUploadedPath(files, 'resumeFile') ||
+        cleanText(req.body.resumeUrl) ||
+        current.site.resumeUrl,
+
+      coverLetterUrl:
+        getUploadedPath(files, 'coverLetterFile') ||
+        cleanText(req.body.coverLetterUrl) ||
+        current.site.coverLetterUrl,
       footerNote: cleanText(req.body.footerNote) || current.site.footerNote,
       heroVideo:
         getUploadedPath(files, 'heroVideoFile') ||
@@ -280,11 +287,18 @@ app.post('/admin/save', requireAdmin, upload.any(), (req, res) => {
       ['role', 'employer', 'dates', 'description']
     );
 
-    const projects = cleanItemArray(
-      parseJsonField(req.body.projectsJson, current.projects),
-      ['title', 'description', 'link']
-    );
+    const projectsInput = parseJsonField(req.body.projectsJson, current.projects);
 
+    const projects = (Array.isArray(projectsInput) ? projectsInput : [])
+      .map((item, index) => ({
+        title: cleanText(item?.title),
+        description: cleanText(item?.description),
+        link: cleanText(item?.link),
+        fileUrl:
+          getUploadedPath(files, `projects_projectFile_${index}`) ||
+          cleanText(item?.fileUrl)
+      }))
+      .filter((item) => item.title || item.description || item.link || item.fileUrl);
     const volunteerWorkInput = parseJsonField(req.body.volunteerWorkJson, current.volunteerWork);
 
     const volunteerWork = (Array.isArray(volunteerWorkInput) ? volunteerWorkInput : [])
