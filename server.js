@@ -33,14 +33,16 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage,
-  limits: { fileSize: 30 * 1024 * 1024 }
+  limits: {
+    fileSize: 95 * 1024 * 1024 // 90MB
+  }
 });
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-app.use(express.urlencoded({ extended: true, limit: '20mb' }));
-app.use(express.json({ limit: '20mb' }));
+app.use(express.urlencoded({ extended: true, limit: '90mb' }));
+app.use(express.json({ limit: '90mb' }));
 app.use(
   session({
     secret: process.env.SESSION_SECRET || 'jennifer-portfolio-secret',
