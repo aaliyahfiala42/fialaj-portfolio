@@ -263,14 +263,17 @@
 
 <section id="projects" class="section alt-surface">
   <div class="container">
-    <div class="section-heading">
+    <div class="section-heading premium-project-heading">
       <p class="eyebrow">Academic Projects & Work Samples</p>
       <h2>Portfolio Highlights</h2>
+      <p class="section-copy">
+        A curated collection of academic projects, presentations, and professional work samples.
+      </p>
     </div>
 
     <div class="project-list">
       <% if ((content.projects || []).length) { %>
-        <% content.projects.forEach((project) => { %>
+        <% content.projects.forEach((project, index) => { %>
           <article class="project-card hover-card">
             <div class="project-media">
               <% if (project.imageUrl) { %>
@@ -279,7 +282,15 @@
                   alt="<%= project.title %> cover photo"
                   class="project-cover-image"
                 />
+              <% } else { %>
+                <div class="project-cover-placeholder">
+                  <span>✦</span>
+                </div>
               <% } %>
+
+              <div class="project-media-badge">
+                Project <%= String(index + 1).padStart(2, '0') %>
+              </div>
             </div>
 
             <div class="project-card-body">
@@ -290,18 +301,40 @@
 
               <% if (project.description) { %>
                 <div class="project-description preserve-whitespace"><%= project.description %></div>
+              <% } else { %>
+                <p class="project-description muted">
+                  View this project sample to explore Jennifer’s academic and professional work.
+                </p>
               <% } %>
 
               <div class="project-actions">
-                <% if (project.link) { %>
-                  <a href="<%= project.link %>" target="_blank" rel="noreferrer" class="button button-secondary">
-                    Open Project Link
+                <% if (project.fileUrl) { %>
+                  <button
+                    type="button"
+                    class="button button-primary project-preview-button"
+                    data-file-url="<%= project.fileUrl %>"
+                    data-project-title="<%= project.title %>"
+                  >
+                    Preview Project
+                  </button>
+
+                  <a
+                    href="<%= project.fileUrl %>"
+                    download
+                    class="button button-secondary"
+                  >
+                    Download
                   </a>
                 <% } %>
 
-                <% if (project.fileUrl) { %>
-                  <a href="<%= project.fileUrl %>" target="_blank" rel="noreferrer" class="button button-primary">
-                    View Project
+                <% if (project.link) { %>
+                  <a
+                    href="<%= project.link %>"
+                    target="_blank"
+                    rel="noreferrer"
+                    class="button button-secondary"
+                  >
+                    Open Project Link
                   </a>
                 <% } %>
               </div>
@@ -317,6 +350,30 @@
     </div>
   </div>
 </section>
+
+<div class="project-viewer-modal" id="projectViewerModal" aria-hidden="true">
+  <div class="project-viewer-backdrop" data-close-project-viewer></div>
+
+  <div class="project-viewer-panel" role="dialog" aria-modal="true" aria-labelledby="projectViewerTitle">
+    <div class="project-viewer-header">
+      <div>
+        <p class="eyebrow">Project Preview</p>
+        <h2 id="projectViewerTitle">Project Viewer</h2>
+      </div>
+
+      <div class="project-viewer-actions">
+        <a id="projectViewerDownload" class="button button-secondary" href="#" download>Download</a>
+        <button type="button" class="project-viewer-close" data-close-project-viewer aria-label="Close project viewer">
+          ×
+        </button>
+      </div>
+    </div>
+
+    <div class="project-viewer-body" id="projectViewerBody">
+      <p class="muted">Select a project to preview.</p>
+    </div>
+  </div>
+</div>
 
       <section id="blog" class="section">
         <div class="container">
@@ -556,6 +613,120 @@
     </main>
 
 <%- include('partials/footer', { content, isAdmin }) %>
+<script>
+  (() => {
+    const modal = document.getElementById('projectViewerModal');
+    const viewerBody = document.getElementById('projectViewerBody');
+    const viewerTitle = document.getElementById('projectViewerTitle');
+    const viewerDownload = document.getElementById('projectViewerDownload');
+
+    if (!modal || !viewerBody || !viewerTitle || !viewerDownload) return;
+
+    const getExtension = (url) => {
+      const cleanUrl = String(url || '').split('?')[0].split('#')[0];
+      return cleanUrl.includes('.') ? cleanUrl.split('.').pop().toLowerCase() : '';
+    };
+
+    const absoluteUrl = (url) => {
+      try {
+        return new URL(url, window.location.origin).href;
+      } catch (_error) {
+        return url;
+      }
+    };
+
+    const isImage = (ext) => ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'].includes(ext);
+    const isVideo = (ext) => ['mp4', 'webm', 'mov', 'm4v'].includes(ext);
+    const isPdf = (ext) => ext === 'pdf';
+    const isOffice = (ext) => ['ppt', 'pptx', 'doc', 'docx', 'xls', 'xlsx'].includes(ext);
+
+    const openViewer = ({ fileUrl, title }) => {
+      const ext = getExtension(fileUrl);
+      const fullUrl = absoluteUrl(fileUrl);
+
+      viewerTitle.textContent = title || 'Project Viewer';
+      viewerDownload.href = fileUrl;
+      viewerDownload.setAttribute('download', '');
+
+      if (isPdf(ext)) {
+        viewerBody.innerHTML = `
+          <iframe
+            class="project-viewer-frame"
+            src="${fileUrl}#toolbar=1&navpanes=0"
+            title="${title || 'Project PDF'}"
+          ></iframe>
+        `;
+      } else if (isImage(ext)) {
+        viewerBody.innerHTML = `
+          <img
+            class="project-viewer-image"
+            src="${fileUrl}"
+            alt="${title || 'Project image'}"
+          />
+        `;
+      } else if (isVideo(ext)) {
+        viewerBody.innerHTML = `
+          <video
+            class="project-viewer-video"
+            src="${fileUrl}"
+            controls
+          ></video>
+        `;
+      } else if (isOffice(ext)) {
+        viewerBody.innerHTML = `
+          <iframe
+            class="project-viewer-frame"
+            src="https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(fullUrl)}"
+            title="${title || 'Office project'}"
+          ></iframe>
+        `;
+      } else {
+        viewerBody.innerHTML = `
+          <div class="project-viewer-fallback">
+            <div>
+              <h3>Preview unavailable</h3>
+              <p class="muted">This file type may not support in-browser preview. You can still download the project.</p>
+              <a class="button button-primary" href="${fileUrl}" download>Download Project</a>
+            </div>
+          </div>
+        `;
+      }
+
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('nav-lock');
+    };
+
+    const closeViewer = () => {
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+      viewerBody.innerHTML = '<p class="muted">Select a project to preview.</p>';
+      document.body.classList.remove('nav-lock');
+    };
+
+    document.addEventListener('click', (event) => {
+      const previewButton = event.target.closest('.project-preview-button');
+
+      if (previewButton) {
+        openViewer({
+          fileUrl: previewButton.dataset.fileUrl,
+          title: previewButton.dataset.projectTitle
+        });
+        return;
+      }
+
+      if (event.target.closest('[data-close-project-viewer]')) {
+        closeViewer();
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && modal.classList.contains('is-open')) {
+        closeViewer();
+      }
+    });
+  })();
+</script>
 
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>
