@@ -108,6 +108,14 @@ function requireAdmin(req, res, next) {
   return next();
 }
 
+function preserveText(value = '') {
+  return String(value ?? '').replace(/\r\n/g, '\n');
+}
+
+function hasText(value = '') {
+  return String(value ?? '').trim().length > 0;
+}
+
 function cleanText(value = '') {
   return String(value).trim();
 }
@@ -131,14 +139,21 @@ function cleanListFromTextarea(value = '') {
 }
 
 function cleanItemArray(items, shape) {
+  const multilineFields = new Set(['description', 'notes', 'summary', 'body']);
+
   return (Array.isArray(items) ? items : [])
     .map((item) => {
       const cleaned = {};
       let hasValue = false;
 
       shape.forEach((field) => {
-        cleaned[field] = cleanText(item?.[field] || '');
-        if (cleaned[field]) hasValue = true;
+        const rawValue = item?.[field] || '';
+
+        cleaned[field] = multilineFields.has(field)
+          ? preserveText(rawValue)
+          : cleanText(rawValue);
+
+        if (hasText(cleaned[field])) hasValue = true;
       });
 
       return hasValue ? cleaned : null;
@@ -152,9 +167,8 @@ function getUploadedPath(files, fieldName) {
   return `/uploads/${match.filename}`;
 }
 function cleanMultilineText(value = '') {
-  return String(value || '').trim();
+  return preserveText(value);
 }
-
 function slugify(value = '') {
   return String(value || '')
     .toLowerCase()
@@ -294,7 +308,7 @@ app.post('/admin/save', requireAdmin, upload.any(), (req, res) => {
 const projects = (Array.isArray(projectsInput) ? projectsInput : [])
   .map((item, index) => ({
     title: cleanText(item?.title),
-    description: cleanText(item?.description),
+    description: preserveText(item?.description),
     link: cleanText(item?.link),
 
     imageUrl:
@@ -313,7 +327,7 @@ const projects = (Array.isArray(projectsInput) ? projectsInput : [])
         organization: cleanText(item?.organization),
         role: cleanText(item?.role),
         dates: cleanText(item?.dates),
-        description: cleanText(item?.description),
+        description: preserveText(item?.description),
         logoUrl:
           getUploadedPath(files, `volunteerWork_logoFile_${index}`) ||
           cleanText(item?.logoUrl)
@@ -335,7 +349,7 @@ const projects = (Array.isArray(projectsInput) ? projectsInput : [])
         title: cleanText(item?.title),
         recommenderName: cleanText(item?.recommenderName),
         relationship: cleanText(item?.relationship),
-        description: cleanText(item?.description),
+        description: preserveText(item?.description),
         pdfUrl:
           getUploadedPath(files, `recommendationLetters_pdfFile_${index}`) ||
           cleanText(item?.pdfUrl)
@@ -415,7 +429,10 @@ const projects = (Array.isArray(projectsInput) ? projectsInput : [])
     const updatedContent = {
       ...current,
       site: updatedSite,
-      introStatement: cleanText(req.body.introStatement) || current.introStatement,
+      introStatement:
+        typeof req.body.introStatement === 'string'
+          ? preserveText(req.body.introStatement)
+          : current.introStatement,
       toc: cleanItemArray(parseJsonField(req.body.tocJson, current.toc), ['title', 'anchor']),
       education,
       workExperience,
