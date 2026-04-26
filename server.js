@@ -291,17 +291,22 @@ app.post('/admin/save', requireAdmin, upload.any(), (req, res) => {
 
     const projectsInput = parseJsonField(req.body.projectsJson, current.projects);
 
-    const projects = (Array.isArray(projectsInput) ? projectsInput : [])
-      .map((item, index) => ({
-        title: cleanText(item?.title),
-        description: cleanText(item?.description),
-        link: cleanText(item?.link),
-        fileUrl:
-          getUploadedPath(files, `projects_projectFile_${index}`) ||
-          cleanText(item?.fileUrl)
-      }))
-      .filter((item) => item.title || item.description || item.link || item.fileUrl);
-    const volunteerWorkInput = parseJsonField(req.body.volunteerWorkJson, current.volunteerWork);
+const projects = (Array.isArray(projectsInput) ? projectsInput : [])
+  .map((item, index) => ({
+    title: cleanText(item?.title),
+    description: cleanText(item?.description),
+    link: cleanText(item?.link),
+
+    imageUrl:
+      getUploadedPath(files, `projects_imageFile_${index}`) ||
+      cleanText(item?.imageUrl),
+
+    fileUrl:
+      getUploadedPath(files, `projects_projectFile_${index}`) ||
+      cleanText(item?.fileUrl)
+  }))
+  .filter((item) => item.title || item.description || item.link || item.imageUrl || item.fileUrl);
+      const volunteerWorkInput = parseJsonField(req.body.volunteerWorkJson, current.volunteerWork);
 
     const volunteerWork = (Array.isArray(volunteerWorkInput) ? volunteerWorkInput : [])
       .map((item, index) => ({

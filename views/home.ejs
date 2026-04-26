@@ -271,7 +271,16 @@
     <div class="card-grid two-up">
       <% if ((content.projects || []).length) { %>
         <% content.projects.forEach((project) => { %>
-          <article class="info-card hover-card project-card">
+        <article class="info-card hover-card project-card">
+          <% if (project.imageUrl) { %>
+            <img
+              src="<%= project.imageUrl %>"
+              alt="<%= project.title %> cover photo"
+              class="project-cover-image"
+            />
+          <% } %>
+
+          <div class="project-card-body">
             <div class="project-card-top">
               <div>
                 <p class="card-kicker">Work Sample</p>
@@ -285,14 +294,19 @@
 
             <div class="project-actions">
               <% if (project.link) { %>
-                <a href="<%= project.link %>" target="_blank" rel="noreferrer" class="button button-secondary">Open Project Link</a>
+                <a href="<%= project.link %>" target="_blank" rel="noreferrer" class="button button-secondary">
+                  Open Project Link
+                </a>
               <% } %>
 
               <% if (project.fileUrl) { %>
-                <a href="<%= project.fileUrl %>" target="_blank" rel="noreferrer" class="button button-primary">View Project</a>
+                <a href="<%= project.fileUrl %>" target="_blank" rel="noreferrer" class="button button-primary">
+                  View Uploaded File
+                </a>
               <% } %>
             </div>
-          </article>
+          </div>
+        </article>
         <% }) %>
       <% } else { %>
         <article class="info-card hover-card">

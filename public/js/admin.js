@@ -35,29 +35,44 @@
         { key: 'description', label: 'Description', type: 'textarea' }
       ]
     },
-    projects: {
-      containerId: 'projectsContainer',
-      hiddenId: 'projectsJson',
-      fields: [
-        { key: 'title', label: 'Project Title' },
-        { key: 'description', label: 'Description', type: 'textarea' },
-        { key: 'link', label: 'Project Link', type: 'url' },
-        {
-          key: 'fileUrl',
-          label: 'Project File URL',
-          type: 'text',
-          placeholder: '/uploads/example-project.pdf'
-        },
-        {
-          key: 'projectFile',
-          label: 'Upload Project File',
-          type: 'file',
-          accept: '.pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.png,.jpg,.jpeg,.webp,.mp4,.mov,application/pdf,image/*,video/*',
-          previewKey: 'fileUrl',
-          previewLabel: 'Open current project file'
-        }
-      ]
+projects: {
+  containerId: 'projectsContainer',
+  hiddenId: 'projectsJson',
+  fields: [
+    { key: 'title', label: 'Project Title' },
+    { key: 'description', label: 'Description', type: 'textarea' },
+    { key: 'link', label: 'Project Link', type: 'url' },
+    {
+      key: 'imageUrl',
+      label: 'Project Cover Photo URL',
+      type: 'text',
+      placeholder: '/uploads/project-cover.jpg'
     },
+    {
+      key: 'imageFile',
+      label: 'Upload Project Cover Photo',
+      type: 'file',
+      accept: 'image/png,image/jpeg,image/jpg,image/webp,image/gif,image/*',
+      previewKey: 'imageUrl',
+      previewLabel: 'Open current cover photo',
+      previewType: 'image'
+    },
+    {
+      key: 'fileUrl',
+      label: 'Project File URL',
+      type: 'text',
+      placeholder: '/uploads/example-project.pdf'
+    },
+    {
+      key: 'projectFile',
+      label: 'Upload Project File',
+      type: 'file',
+      accept: '.pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.png,.jpg,.jpeg,.webp,.mp4,.mov,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,image/*,video/*',
+      previewKey: 'fileUrl',
+      previewLabel: 'Open current project file'
+    }
+  ]
+},
     volunteerWork: {
       containerId: 'volunteerWorkContainer',
       hiddenId: 'volunteerWorkJson',
