@@ -829,24 +829,24 @@ small {
   margin-top: 0;
 }
 /* Improved Project Cards */
+/* Improved Project Cards */
 
-#projects .card-grid.two-up {
-  grid-template-columns: 1fr;
-}
-
+#projects .card-grid.two-up,
 .project-list {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1.5rem;
+  align-items: stretch;
 }
 
 .project-card {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
   gap: 0;
   padding: 0;
-  overflow: hidden;
+  height: 100%;
   min-width: 0;
+  overflow: hidden;
   background: var(--surface);
   backdrop-filter: blur(18px);
   border: 1px solid rgba(255, 255, 255, 0.35);
@@ -861,25 +861,24 @@ small {
 
 .project-media {
   width: 100%;
-  display: block;
-  background: linear-gradient(135deg, rgba(123, 47, 69, 0.12), rgba(92, 115, 84, 0.14));
+  height: 260px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.48);
 }
 
-.project-cover-image,
-.project-cover-placeholder {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  height: auto;
-  max-height: 450px;
-  min-height: 0;
-  border-radius: 0;
+.project-media:empty {
+  display: none;
 }
 
 .project-cover-image {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 }
 
 .project-cover-placeholder {
+  width: 100%;
+  height: 260px;
   display: grid;
   place-items: center;
   background: linear-gradient(135deg, rgba(123, 47, 69, 0.16), rgba(92, 115, 84, 0.18));
@@ -888,10 +887,11 @@ small {
 
 .project-card-body {
   display: grid;
-  align-content: start;
+  grid-template-rows: auto 1fr auto;
   gap: 1rem;
   min-width: 0;
-  padding: clamp(1.35rem, 3vw, 2.25rem);
+  min-height: 430px;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
 }
 
 .project-card-top {
@@ -921,9 +921,59 @@ small {
   display: flex;
   gap: 0.75rem;
   flex-wrap: wrap;
+  align-self: end;
   margin-top: 0.5rem;
 }
 
+@media (max-width: 1080px) {
+  .project-media,
+  .project-cover-placeholder {
+    height: 230px;
+  }
+
+  .project-card-body {
+    min-height: 400px;
+  }
+}
+
+@media (max-width: 860px) {
+  #projects .card-grid.two-up,
+  .project-list {
+    grid-template-columns: 1fr;
+  }
+
+  .project-media,
+  .project-cover-placeholder {
+    height: 280px;
+  }
+
+  .project-card-body {
+    min-height: auto;
+  }
+}
+
+@media (max-width: 560px) {
+  .project-list {
+    gap: 1.1rem;
+  }
+
+  .project-media,
+  .project-cover-placeholder {
+    height: 220px;
+  }
+
+  .project-card-body {
+    padding: 1.1rem;
+  }
+
+  .project-description {
+    line-height: 1.75;
+  }
+
+  .project-actions .button {
+    width: 100%;
+  }
+}
 /* Volunteer */
 
 .volunteer-card {
