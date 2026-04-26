@@ -288,14 +288,11 @@
                 </div>
               <% } %>
 
-              <div class="project-media-badge">
-                Project <%= String(index + 1).padStart(2, '0') %>
-              </div>
             </div>
 
             <div class="project-card-body">
               <div class="project-card-top">
-                <p class="card-kicker">Work Sample</p>
+                <p class="card-kicker">Project <%= String(index + 1).padStart(2, '0') %></p>
                 <h3><%= project.title %></h3>
               </div>
 
