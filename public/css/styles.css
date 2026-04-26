@@ -1412,3 +1412,8 @@ body {
   max-width: 100%;
   overflow-x: hidden;
 }
+
+#overview .feature-banner-inner {
+  text-align: center;
+  justify-items: center;
+}
