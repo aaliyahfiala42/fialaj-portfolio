@@ -5,7 +5,7 @@
     <main>
       <section id="home" class="hero-section">
         <video class="hero-video" autoplay muted loop playsinline poster="<%= content.site.heroPoster %>">
-          <source src="<%= content.site.heroVideo %>" type="video/mp4" />
+          <source src="/videos/waterfall.webm" type="video/mp4" />
         </video>
         <div class="hero-overlay"></div>
 
@@ -125,19 +125,34 @@
         </div>
       </section>
 
-      <section id="skills" class="section">
-        <div class="container">
-          <div class="section-heading">
-            <p class="eyebrow">Skills & Competencies</p>
-            <h2>Strengths That Support Impact</h2>
-          </div>
-          <div class="tag-cloud">
-            <% content.skills.forEach((skill) => { %>
-              <span class="skill-tag hover-card"><%= skill %></span>
-            <% }) %>
-          </div>
+<section id="skills" class="section skills-section">
+  <div class="container">
+    <div class="section-heading skills-heading">
+      <p class="eyebrow">Skills & Competencies</p>
+      <h2>Strengths That Support Impact</h2>
+      <p class="section-copy">
+        A focused blend of interpersonal, administrative, analytical, and systems-based strengths.
+      </p>
+    </div>
+
+    <div class="skills-board">
+      <div class="skills-feature-card">
+        <div>
+          <p class="card-kicker">Core strengths</p>
+          <h3>Professional competencies built for meaningful work.</h3>
         </div>
-      </section>
+      </div>
+
+      <ul class="skills-grid" aria-label="Skills and competencies">
+        <% content.skills.forEach((skill, index) => { %>
+          <li class="skill-card hover-card">
+            <span class="skill-name"><%= skill %></span>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+  </div>
+</section>
 
       <section id="resume" class="section alt-surface">
         <div class="container">
@@ -164,7 +179,7 @@
                 <h3>Cover Letter</h3>
                 <p>View Jennifer’s professional cover letter.</p>
                 <% if (content.site.coverLetterUrl) { %>
-                  <a class="button button-secondary" href="<%= content.site.coverLetterUrl %>" target="_blank" rel="noreferrer">Open Cover Letter</a>
+                  <a class="button button-primary" href="<%= content.site.coverLetterUrl %>" target="_blank" rel="noreferrer">Open Cover Letter</a>
                 <% } else { %>
                   <span class="button button-secondary button-disabled">Cover Letter Coming Soon</span>
                 <% } %>
@@ -597,6 +612,8 @@
           <div class="contact-card hover-card">
             <a href="tel:<%= content.site.phone %>"><strong>Phone:</strong> <%= content.site.phone %></a>
             <a href="mailto:<%= content.site.email %>"><strong>Email:</strong> <%= content.site.email %></a>
+            <a href="https://www.linkedin.com/in/jennifer-fiala-93b2b6404/"><strong>LinkedIn:</strong> View Profile</a>
+
             <% if (content.site.resumeUrl) { %>
               <a href="<%= content.site.resumeUrl %>" target="_blank" rel="noreferrer"><strong>Resume:</strong> Open resume</a>
             <% } %>
