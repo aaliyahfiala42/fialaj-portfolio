@@ -141,24 +141,31 @@
     },
     {
       "title": "Progressive Journal",
-      "description": "",
+      "description": "High Performance Teams",
       "link": "",
       "imageUrl": "/uploads/1777228681177-23755.jpg",
       "fileUrl": "/uploads/1777228681189-20250928-fialaj-progressivejournal-oltm3.pdf"
     },
     {
       "title": "Leadership Portfolio",
-      "description": "",
+      "description": "Transformative Leadership and Decision-Making",
       "link": "",
       "imageUrl": "/uploads/1777228681197-22648.jpg",
       "fileUrl": "/uploads/1777228681206-20241205-fialaj-leadershipportfolio-oltm.pdf"
     },
     {
-      "title": "Communication Assessment",
-      "description": "Cowlitz Youth Soccer Association",
+      "title": "Workforce Communication Assessment",
+      "description": "Organizational Communication",
       "link": "",
       "imageUrl": "/uploads/1777232994728-untitled-design-13.jpg",
-      "fileUrl": "/uploads/1777228739727-20250318-fialaj-workforcecommunicationas.pdf"
+      "fileUrl": "/uploads/1777255115037-20250318-fialaj-workforcecommunicationas.pdf"
+    },
+    {
+      "title": "Shark Tank",
+      "description": "Small Group Communication",
+      "link": "",
+      "imageUrl": "/uploads/1777254750992-shark-tank.png",
+      "fileUrl": "/uploads/1777255115043-20240817-fialaj-sharktank-cmst230.pdf"
     }
   ],
   "accomplishments": [
@@ -268,6 +275,36 @@
       "phone": "+41 76 397 94 12",
       "linkedinUrl": "https://www.linkedin.com/in/aaliyah-h%C3%A4nni/?originalSubdomain=ch",
       "notes": ""
+    },
+    {
+      "name": "Jessica Vilai",
+      "organization": "Washington State Opportunity Scholarship",
+      "role": "Career & Technical Scholarship Advisor",
+      "connection": "Advisor and supervisor",
+      "email": "jvilai@waopportunityscholarship.org",
+      "phone": "(206) 800-8025",
+      "linkedinUrl": "",
+      "notes": "Jessica Vilai oversees my work as a Career & Technical Scholar Lead with Washington State Opportunity Scholarship and can speak to my leadership, communication, and program involvement."
+    },
+    {
+      "name": "Cathy Reynolds",
+      "organization": "Bjore Bookkeeping",
+      "role": "Bookkeeper",
+      "connection": "Collaborators for Cowlitz Youth Soccer Association",
+      "email": "bjorgebookkeeping@yahoo.com",
+      "phone": "(360) 751-2487",
+      "linkedinUrl": "",
+      "notes": "I worked closely with Cathy Reynolds while volunteering as Treasurer for Cowlitz Youth Soccer Association, where she mentored me and supported my development in managing financial tasks and organizational responsibilities."
+    },
+    {
+      "name": "Mark Gaither",
+      "organization": "Lower Columbia College",
+      "role": "Advisor & Instructor",
+      "connection": "Instructor, academic advisor, and Rotaract Club advisor at Lower Columbia College",
+      "email": "mgaither@lcc.ctc.edu",
+      "phone": "(360) 442-2716",
+      "linkedinUrl": "",
+      "notes": "I worked with Mark Gaither as both an instructor and advisor during my associate degree program at Lower Columbia College, as well as through the Rotaract Club. His mentorship was instrumental in shaping my academic and professional path."
     }
   ],
   "recommendationLetters": [
