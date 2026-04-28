@@ -67,6 +67,15 @@ function loadContent() {
       education: [],
       workExperience: [],
       skills: [],
+      leadership: {
+        title: 'Leadership Philosophy & Experience',
+        summary: '',
+        philosophyTitle: 'Leading with Empathy, Purpose, and Service',
+        philosophyText: '',
+        philosophyDocumentUrl: '',
+        skills: [],
+        experience: []
+      },
       projects: [],
       accomplishments: [],
       volunteerWork: [],
@@ -425,29 +434,55 @@ const projects = (Array.isArray(projectsInput) ? projectsInput : [])
       longTermText: cleanMultilineText(req.body.careerLongTermText),
       longTermMilestones: cleanListFromTextarea(req.body.careerLongTermMilestones)
     };
+    const updatedLeadership = {
+      title:
+        cleanText(req.body.leadershipTitle) ||
+        current.leadership?.title ||
+        'Leadership Philosophy & Experience',
 
-    const updatedContent = {
-      ...current,
-      site: updatedSite,
-      introStatement:
-        typeof req.body.introStatement === 'string'
-          ? preserveText(req.body.introStatement)
-          : current.introStatement,
-      toc: cleanItemArray(parseJsonField(req.body.tocJson, current.toc), ['title', 'anchor']),
-      education,
-      workExperience,
-      skills: cleanListFromTextarea(req.body.skillsText),
-      projects,
-      accomplishments: cleanListFromTextarea(req.body.accomplishmentsText),
-      volunteerWork,
-      certifications: cleanListFromTextarea(req.body.certificationsText),
-      photoGallery: mergedGallery,
-      weeks,
-      references,
-      recommendationLetters,
-      blogPosts,
-      careerPlanning: updatedCareerPlanning
+      summary: cleanMultilineText(req.body.leadershipSummary),
+
+      philosophyTitle:
+        cleanText(req.body.leadershipPhilosophyTitle) ||
+        current.leadership?.philosophyTitle ||
+        'Leading with Empathy, Purpose, and Service',
+
+      philosophyText: cleanMultilineText(req.body.leadershipPhilosophyText),
+
+      philosophyDocumentUrl:
+        getUploadedPath(files, 'leadershipPhilosophyFile') ||
+        cleanText(req.body.leadershipPhilosophyDocumentUrl) ||
+        current.leadership?.philosophyDocumentUrl ||
+        '',
+
+      skills: cleanListFromTextarea(req.body.leadershipSkillsText),
+
+      experience: cleanListFromTextarea(req.body.leadershipExperienceText)
     };
+
+const updatedContent = {
+  ...current,
+  site: updatedSite,
+  introStatement:
+    typeof req.body.introStatement === 'string'
+      ? preserveText(req.body.introStatement)
+      : current.introStatement,
+  toc: cleanItemArray(parseJsonField(req.body.tocJson, current.toc), ['title', 'anchor']),
+  education,
+  workExperience,
+  skills: cleanListFromTextarea(req.body.skillsText),
+  projects,
+  accomplishments: cleanListFromTextarea(req.body.accomplishmentsText),
+  volunteerWork,
+  certifications: cleanListFromTextarea(req.body.certificationsText),
+  photoGallery: mergedGallery,
+  weeks,
+  references,
+  recommendationLetters,
+  blogPosts,
+  leadership: updatedLeadership,
+  careerPlanning: updatedCareerPlanning
+};
 
     saveContent(updatedContent);
     return res.redirect('/admin?message=Changes%20saved%20successfully.');

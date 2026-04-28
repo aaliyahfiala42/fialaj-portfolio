@@ -154,8 +154,83 @@
   </div>
 </section>
 
-      <section id="resume" class="section alt-surface">
-        <div class="container">
+<% const leadership = content.leadership || {}; %>
+
+<section id="leadership" class="section leadership-section alt-surface">
+  <div class="container">
+    <div class="section-heading leadership-heading">
+      <p class="eyebrow">Leadership</p>
+      <h2><%= leadership.title || 'Leadership Philosophy & Experience' %></h2>
+      <p class="section-copy">
+        <%= leadership.summary || 'A reflection of leadership values, strengths, and experiences built around service, empathy, accountability, and growth.' %>
+      </p>
+    </div>
+
+    <div class="leadership-layout">
+      <article class="leadership-feature-card hover-card">
+        <div>
+          <p class="card-kicker">Leadership Philosophy</p>
+          <h3><%= leadership.philosophyTitle || 'Leading with Empathy, Purpose, and Service' %></h3>
+
+          <% if (leadership.philosophyText) { %>
+            <p class="preserve-whitespace"><%= leadership.philosophyText %></p>
+          <% } %>
+        </div>
+
+        <div class="leadership-document-actions">
+          <% if (leadership.philosophyDocumentUrl) { %>
+            <button
+              type="button"
+              class="button button-primary project-preview-button"
+              data-file-url="<%= leadership.philosophyDocumentUrl %>"
+              data-project-title="<%= leadership.philosophyTitle || 'Leadership Philosophy' %>"
+            >
+              Preview Philosophy
+            </button>
+
+            <a
+              href="<%= leadership.philosophyDocumentUrl %>"
+              download
+              class="button button-secondary"
+            >
+              Download
+            </a>
+          <% } %>
+        </div>
+      </article>
+
+      <div class="leadership-side-grid">
+        <article class="info-card hover-card">
+          <p class="card-kicker">Leadership Skills</p>
+          <h3>Core Strengths</h3>
+
+          <% if ((leadership.skills || []).length) { %>
+            <ul class="leadership-list">
+              <% leadership.skills.forEach((skill) => { %>
+                <li><%= skill %></li>
+              <% }) %>
+            </ul>
+          <% } %>
+        </article>
+
+        <article class="info-card hover-card">
+          <p class="card-kicker">Leadership Experience</p>
+          <h3>Applied Leadership</h3>
+
+          <% if ((leadership.experience || []).length) { %>
+            <ul class="leadership-list">
+              <% leadership.experience.forEach((item) => { %>
+                <li><%= item %></li>
+              <% }) %>
+            </ul>
+          <% } %>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="resume" class="section dark-surface resume-section">        <div class="container">
           <div class="section-heading">
             <p class="eyebrow">Resume</p>
             <h2>Professional Documents</h2>
@@ -421,7 +496,6 @@
             <% } else { %>
               <article class="info-card hover-card">
                 <h3>No blog posts yet</h3>
-                <p>Create a post in the admin dashboard to show it here.</p>
               </article>
             <% } %>
           </div>
@@ -548,7 +622,7 @@
           <div class="card-grid three-up">
             <article class="info-card hover-card">
               <h3><%= career.targetCareerFieldTitle || 'Target Career Field' %></h3>
-              <p><%= career.targetCareerFieldSummary || 'Add a target career summary in the admin dashboard.' %></p>
+              <p><%= career.targetCareerFieldSummary || '' %></p>
 
               <% if (career.jobOutlook) { %>
                 <p><strong>Job Outlook:</strong> <%= career.jobOutlook %></p>
@@ -769,6 +843,8 @@
     applyAos('.info-card', 'fade-up', 70);
     applyAos('.experience-card', 'fade-up', 70);
     applyAos('.skill-tag', 'zoom-in', 45);
+    applyAos('.leadership-feature-card', 'fade-right');
+applyAos('.leadership-side-grid .info-card', 'fade-left', 70);
     applyAos('.check-card', 'fade-up', 65);
     applyAos('.contact-card', 'fade-left');
     applyAos('.button-cluster', 'fade-left');

@@ -2158,7 +2158,7 @@ html {
 
 /* Make the menu itself stack cleanly inside the full-height drawer */
 .nav-sidebar-top {
-  position: sticky;
+  position: relative;
   top: 0;
   z-index: 2;
   margin: -1.2rem -1.2rem 1rem;
@@ -2198,4 +2198,179 @@ html {
     margin: -1rem -1rem 1rem;
     padding: 1rem 1rem 0.9rem;
   }
+}
+
+/* Leadership Section */
+
+.leadership-section {
+  position: relative;
+  overflow: hidden;
+}
+
+
+.leadership-layout {
+  display: grid;
+  grid-template-columns: 1.25fr 0.95fr;
+  gap: 1.5rem;
+  align-items: stretch;
+}
+
+.leadership-feature-card {
+  min-height: 100%;
+  display: grid;
+  align-content: space-between;
+  gap: 2rem;
+  padding: clamp(1.5rem, 3vw, 2.4rem);
+  border-radius: var(--radius);
+  color: white;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(94, 34, 53, 0.95),
+      rgba(63, 85, 64, 0.88)
+    ),
+    url('/images/elephant.jpg') center center / cover no-repeat;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.leadership-feature-card::before {
+  content: '';
+  position: absolute;
+  inset: 1rem;
+  border-radius: calc(var(--radius) - 10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  pointer-events: none;
+}
+
+.leadership-feature-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.leadership-feature-card .card-kicker {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.leadership-feature-card h3 {
+  margin: 0.45rem 0 1rem;
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  line-height: 1.08;
+}
+
+.leadership-feature-card p {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.leadership-document-actions {
+  display: flex;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.leadership-side-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.leadership-list {
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.leadership-list li {
+  position: relative;
+  padding: 0.85rem 0.95rem 0.85rem 2.6rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.64);
+  border: 1px solid rgba(92, 115, 84, 0.13);
+  font-weight: 700;
+}
+
+.leadership-list li::before {
+  content: '✦';
+  position: absolute;
+  left: 0.95rem;
+  top: 0.75rem;
+  color: var(--maroon);
+  font-weight: 900;
+}
+
+@media (max-width: 860px) {
+  .leadership-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .leadership-feature-card {
+    min-height: auto;
+  }
+}
+
+@media (max-width: 560px) {
+  .leadership-document-actions,
+  .leadership-document-actions .button {
+    width: 100%;
+  }
+}
+
+/* Dark Alternate Surface */
+
+.dark-surface {
+  position: relative;
+  overflow: hidden;
+  color: white;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(94, 34, 53, 0.96),
+      rgba(48, 40, 35, 0.96),
+      rgba(63, 85, 64, 0.92)
+    ),
+    url('/images/elephant.jpg') center center / cover no-repeat;
+}
+
+.dark-surface::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.13), transparent 28%),
+    radial-gradient(circle at 88% 80%, rgba(255, 255, 255, 0.1), transparent 32%);
+  pointer-events: none;
+}
+
+.dark-surface > .container {
+  position: relative;
+  z-index: 1;
+}
+
+.dark-surface .eyebrow,
+.dark-surface .section-heading h2,
+.dark-surface .section-heading p {
+  color: white;
+}
+
+.dark-surface .document-card {
+  background: rgba(255, 253, 248, 0.92);
+  color: var(--text);
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  box-shadow: 0 24px 60px rgba(20, 15, 14, 0.28);
+}
+
+.dark-surface .document-card p {
+  color: var(--muted);
+}
+
+.dark-surface .document-card h3 {
+  color: var(--maroon-dark);
+}
+
+.resume-section .document-grid {
+  margin-top: 1.5rem;
 }

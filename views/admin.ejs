@@ -230,6 +230,91 @@
           </div>
         </section>
 
+        <% const leadership = content.leadership || {}; %>
+
+<section class="admin-card hover-card">
+  <div class="section-heading">
+    <p class="eyebrow">Leadership</p>
+    <h2>Leadership philosophy, skills, and experience</h2>
+  </div>
+
+  <div class="admin-grid two-col-form">
+    <label>
+      <span>Leadership Section Title</span>
+      <input
+        type="text"
+        name="leadershipTitle"
+        value="<%= leadership.title || '' %>"
+        placeholder="Leadership Philosophy & Experience"
+      />
+    </label>
+
+    <label>
+      <span>Leadership Philosophy Title</span>
+      <input
+        type="text"
+        name="leadershipPhilosophyTitle"
+        value="<%= leadership.philosophyTitle || '' %>"
+        placeholder="Leading with Empathy, Purpose, and Service"
+      />
+    </label>
+
+    <label style="grid-column: 1 / -1;">
+      <span>Leadership Section Summary</span>
+      <textarea name="leadershipSummary" rows="5"><%= leadership.summary || '' %></textarea>
+    </label>
+
+    <label style="grid-column: 1 / -1;">
+      <span>Leadership Philosophy Text</span>
+      <textarea name="leadershipPhilosophyText" rows="8"><%= leadership.philosophyText || '' %></textarea>
+    </label>
+
+    <label>
+      <span>Leadership Philosophy Document URL</span>
+      <input
+        type="text"
+        name="leadershipPhilosophyDocumentUrl"
+        value="<%= leadership.philosophyDocumentUrl || '' %>"
+        placeholder="/uploads/leadership-philosophy.pdf"
+      />
+      <small>Paste a document link or upload a file below.</small>
+
+      <% if (leadership.philosophyDocumentUrl) { %>
+        <a
+          class="text-link"
+          href="<%= leadership.philosophyDocumentUrl %>"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Open current leadership philosophy document
+        </a>
+      <% } %>
+    </label>
+
+    <label>
+      <span>Upload Leadership Philosophy Document</span>
+      <input
+        type="file"
+        name="leadershipPhilosophyFile"
+        accept=".pdf,.doc,.docx,.ppt,.pptx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation"
+      />
+    </label>
+
+    <label>
+      <span>Leadership Skills</span>
+      <textarea name="leadershipSkillsText" rows="10"><%= (leadership.skills || []).join('\n') %></textarea>
+      <small>Enter one skill per line.</small>
+    </label>
+
+    <label>
+      <span>Leadership Experience</span>
+      <textarea name="leadershipExperienceText" rows="10"><%= (leadership.experience || []).join('\n') %></textarea>
+      <small>Enter one leadership experience per line.</small>
+    </label>
+  </div>
+</section>
+
+
         <section class="admin-card hover-card">
           <div class="admin-section-top">
             <div>
