@@ -77,6 +77,7 @@ function loadContent() {
         experience: []
       },
       projects: [],
+      awards: [],
       accomplishments: [],
       volunteerWork: [],
       certifications: [],
@@ -472,6 +473,7 @@ const updatedContent = {
   workExperience,
   skills: cleanListFromTextarea(req.body.skillsText),
   projects,
+  awards: cleanListFromTextarea(req.body.awardsText),
   accomplishments: cleanListFromTextarea(req.body.accomplishmentsText),
   volunteerWork,
   certifications: cleanListFromTextarea(req.body.certificationsText),

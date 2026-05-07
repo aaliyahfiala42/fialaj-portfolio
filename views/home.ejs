@@ -161,13 +161,10 @@
     <div class="section-heading leadership-heading">
       <p class="eyebrow">Leadership</p>
       <h2><%= leadership.title || 'Leadership Philosophy & Experience' %></h2>
-      <p class="section-copy">
-        <%= leadership.summary || 'A reflection of leadership values, strengths, and experiences built around service, empathy, accountability, and growth.' %>
-      </p>
     </div>
 
     <div class="leadership-layout">
-      <article class="leadership-feature-card hover-card">
+      <article class="leadership-feature-card">
         <div>
           <p class="card-kicker">Leadership Philosophy</p>
           <h3><%= leadership.philosophyTitle || 'Leading with Empathy, Purpose, and Service' %></h3>
@@ -191,9 +188,9 @@
             <a
               href="<%= leadership.philosophyDocumentUrl %>"
               download
-              class="button button-secondary"
+              class="button button-secondary downloadbtn"
             >
-              Download
+                <i class="fa-solid fa-download" aria-hidden="true"></i>
             </a>
           <% } %>
         </div>
@@ -356,9 +353,6 @@
     <div class="section-heading premium-project-heading">
       <p class="eyebrow">Academic Projects & Work Samples</p>
       <h2>Portfolio Highlights</h2>
-      <p class="section-copy">
-        A curated collection of academic projects, presentations, and professional work samples.
-      </p>
     </div>
 
     <div class="project-list">
@@ -387,7 +381,7 @@
               </div>
 
               <% if (project.description) { %>
-                <div class="project-description preserve-whitespace"><%= project.description %></div>
+                <div class="project-description preserve-whitespace"><%- project.description %></div>
               <% } else { %>
                 <p class="project-description muted">
                   View this project sample to explore Jennifer’s academic and professional work.
@@ -408,9 +402,9 @@
                   <a
                     href="<%= project.fileUrl %>"
                     download
-                    class="button button-secondary"
+                    class="button button-secondary downloadbtn"
                   >
-                    Download
+                      <i class="fa-solid fa-download" aria-hidden="true"></i>
                   </a>
                 <% } %>
 
@@ -438,29 +432,7 @@
   </div>
 </section>
 
-<div class="project-viewer-modal" id="projectViewerModal" aria-hidden="true">
-  <div class="project-viewer-backdrop" data-close-project-viewer></div>
 
-  <div class="project-viewer-panel" role="dialog" aria-modal="true" aria-labelledby="projectViewerTitle">
-    <div class="project-viewer-header">
-      <div>
-        <p class="eyebrow">Project Preview</p>
-        <h2 id="projectViewerTitle">Project Viewer</h2>
-      </div>
-
-      <div class="project-viewer-actions">
-        <a id="projectViewerDownload" class="button button-secondary" href="#" download>Download</a>
-        <button type="button" class="project-viewer-close" data-close-project-viewer aria-label="Close project viewer">
-          ×
-        </button>
-      </div>
-    </div>
-
-    <div class="project-viewer-body" id="projectViewerBody">
-      <p class="muted">Select a project to preview.</p>
-    </div>
-  </div>
-</div>
 
       <section id="blog" class="section">
         <div class="container">
@@ -502,22 +474,57 @@
         </div>
       </section>
 
-      <section id="accomplishments" class="section alt-surface">
-        <div class="container">
-          <div class="section-heading">
-            <p class="eyebrow">Accomplishments</p>
-            <h2>Milestones and Impact</h2>
-          </div>
-          <div class="check-grid">
-            <% content.accomplishments.forEach((item) => { %>
-              <article class="check-card hover-card">
+<% const awards = content.awards || []; %>
+<% const accomplishments = content.accomplishments || []; %>
+
+<section id="accomplishments" class="section awards-accomplishments-section alt-surface">
+  <div class="container">
+    <div class="section-heading awards-heading">
+      <p class="eyebrow">Awards & Accomplishments</p>
+      <h2>Recognition, Milestones, and Impact</h2>
+    </div>
+
+    <div class="awards-accomplishments-layout">
+      <article class="awards-feature-card hover-card">
+        <div>
+          <p class="card-kicker">Awards</p>
+          <h3>Honors & Recognition</h3>
+        </div>
+
+        <% if (awards.length) { %>
+          <ul class="awards-list">
+            <% awards.forEach((award) => { %>
+              <li>
+                <span class="award-medal" aria-hidden="true">
+                  <i class="fa-solid fa-award"></i>
+                </span>
+                <span><%= award %></span>
+              </li>
+            <% }) %>
+          </ul>
+        <% } %>
+      </article>
+
+      <article class="info-card accomplishments-panel">
+        <p class="card-kicker">Accomplishments</p>
+        <h3>Milestones and Impact</h3>
+
+        <% if (accomplishments.length) { %>
+          <div class="accomplishment-grid">
+            <% accomplishments.forEach((item) => { %>
+              <article class="check-card accomplishment-card hover-card">
                 <span class="check-mark">✿</span>
                 <p><%= item %></p>
               </article>
             <% }) %>
           </div>
-        </div>
-      </section>
+        <% } else { %>
+          <p>No accomplishments added yet.</p>
+        <% } %>
+      </article>
+    </div>
+  </div>
+</section>
 
 <section id="volunteer" class="section">
   <div class="container">
@@ -700,6 +707,31 @@
       </section>
     </main>
 
+
+    <div class="project-viewer-modal" id="projectViewerModal" aria-hidden="true">
+  <div class="project-viewer-backdrop" data-close-project-viewer></div>
+
+  <div class="project-viewer-panel" role="dialog" aria-modal="true" aria-labelledby="projectViewerTitle">
+    <div class="project-viewer-header">
+      <div>
+        <p class="eyebrow">Project Preview</p>
+        <h2 id="projectViewerTitle">Project Viewer</h2>
+      </div>
+
+      <div class="project-viewer-actions">
+        <a id="projectViewerDownload" class="button button-secondary downloadbtn" href="#" download>  <i class="fa-solid fa-download" aria-hidden="true"></i></a>
+        <button type="button" class="project-viewer-close" data-close-project-viewer aria-label="Close project viewer">
+          ×
+        </button>
+      </div>
+    </div>
+
+    <div class="project-viewer-body" id="projectViewerBody">
+      <p class="muted">Select a project to preview.</p>
+    </div>
+  </div>
+</div>
+
 <%- include('partials/footer', { content, isAdmin }) %>
 <script>
   (() => {
@@ -846,6 +878,8 @@
     applyAos('.leadership-feature-card', 'fade-right');
 applyAos('.leadership-side-grid .info-card', 'fade-left', 70);
     applyAos('.check-card', 'fade-up', 65);
+    applyAos('.awards-feature-card', 'fade-right');
+applyAos('.accomplishment-card', 'fade-up', 65);
     applyAos('.contact-card', 'fade-left');
     applyAos('.button-cluster', 'fade-left');
 

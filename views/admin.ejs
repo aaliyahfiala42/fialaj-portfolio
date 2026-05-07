@@ -209,27 +209,36 @@
           <div id="workExperienceContainer" class="repeater-grid"></div>
         </section>
 
-        <section class="admin-card hover-card">
-          <div class="section-heading">
-            <p class="eyebrow">Skills, Accomplishments, Certifications</p>
-            <h2>One item per line</h2>
-          </div>
-          <div class="admin-grid three-col-form">
-            <label>
-              <span>Skills</span>
-              <textarea name="skillsText" rows="12"><%= (content.skills || []).join('\n') %></textarea>
-            </label>
-            <label>
-              <span>Accomplishments</span>
-              <textarea name="accomplishmentsText" rows="12"><%= (content.accomplishments || []).join('\n') %></textarea>
-            </label>
-            <label>
-              <span>Certifications</span>
-              <textarea name="certificationsText" rows="12"><%= (content.certifications || []).join('\n') %></textarea>
-            </label>
-          </div>
-        </section>
+    <section class="admin-card hover-card">
+      <div class="section-heading">
+        <p class="eyebrow">Skills, Awards, Accomplishments, Certifications</p>
+        <h2>One item per line</h2>
+      </div>
 
+      <div class="admin-grid two-col-form">
+        <label>
+          <span>Skills</span>
+          <textarea name="skillsText" rows="12"><%= (content.skills || []).join('\n') %></textarea>
+        </label>
+
+        <label>
+          <span>Awards</span>
+          <textarea name="awardsText" rows="12"><%= (content.awards || []).join('\n') %></textarea>
+          <small>Enter one award per line.</small>
+        </label>
+
+        <label>
+          <span>Accomplishments</span>
+          <textarea name="accomplishmentsText" rows="12"><%= (content.accomplishments || []).join('\n') %></textarea>
+          <small>Enter one accomplishment per line.</small>
+        </label>
+
+        <label>
+          <span>Certifications</span>
+          <textarea name="certificationsText" rows="12"><%= (content.certifications || []).join('\n') %></textarea>
+        </label>
+      </div>
+    </section>
         <% const leadership = content.leadership || {}; %>
 
 <section class="admin-card hover-card">

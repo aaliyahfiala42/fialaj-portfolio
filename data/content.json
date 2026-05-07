@@ -131,7 +131,7 @@
   "projects": [
     {
       "title": "Capstone",
-      "description": "My Capstone project represents the culmination of my journey through the Organizational Leadership and Technical Management (OLTM) program, integrating my digital portfolio, leadership challenge, and service project. It highlights my growth from an introverted team member who values empathy, collaboration, and adaptability. My digital portfolio includes this website, a leadership mission blog, and links to professional platforms. My leadership challenge is based on *The Leadership Challenge* by Kouzes and Posner (2023), applied through weekly discussions and reflections on my role as a Career and Technical Scholar Lead at WSOS, where I mentor over 200 college students. My service project involves volunteering with WSOS for 3 hours per week over 8 weeks, supported by detailed logs and journals that connect my experiences to course concepts. These elements reflect my personal growth, turning challenges like impatience and cross-cultural communication into strengths that shape my leadership style.\n\n",
+      "description": "My Capstone project represents the culmination of my journey through the Organizational Leadership and Technical Management (OLTM) program, integrating my digital portfolio, leadership challenge, and service project. It highlights my growth from an introverted team member who values empathy, collaboration, and adaptability. My digital portfolio includes this website, a leadership mission blog, and links to professional platforms. My leadership challenge is based on <em>The Leadership Challenge</em> by Kouzes and Posner (2023), applied through weekly discussions and reflections on my role as a Career and Technical Scholar Lead at WSOS, where I mentor over 200 college students. My service project involves volunteering with WSOS for 3 hours per week over 8 weeks, supported by detailed logs and journals that connect my experiences to course concepts. These elements reflect my personal growth, turning challenges like impatience and cross-cultural communication into strengths that shape my leadership style.\n\n",
       "link": "",
       "imageUrl": "/uploads/1777318532009-46520.jpg",
       "fileUrl": ""
@@ -328,7 +328,19 @@
       "pdfUrl": "/uploads/1777940395974-letter-of-recommendation-2.pdf"
     }
   ],
-  "blogPosts": [],
+  "blogPosts": [
+    {
+      "title": "",
+      "slug": "post-1",
+      "author": "Jennifer Fiala",
+      "category": "",
+      "publishDate": "",
+      "excerpt": "",
+      "body": "\n",
+      "imageUrl": "",
+      "videoUrl": ""
+    }
+  ],
   "careerPlanning": {
     "targetCareerFieldTitle": "Target Career Field",
     "targetCareerFieldSummary": "",
@@ -362,5 +374,8 @@
       "Restaurant Manager",
       "Volunteer Work"
     ]
-  }
+  },
+  "awards": [
+    "#1 Mom Award"
+  ]
 }
