@@ -92,10 +92,10 @@ function loadContent() {
         jobOutlook: '',
         requiredQualifications: [],
         potentialEmployers: [],
-        shortTermTitle: 'Short-Term Career Plan (1–3 Years)',
+        shortTermTitle: 'Short-Term Career Plan (1-3 Years)',
         shortTermText: '',
         shortTermMilestones: [],
-        longTermTitle: 'Long-Term Career Plan (5–10 Years)',
+        longTermTitle: 'Long-Term Career Plan (5-10 Years)',
         longTermText: '',
         longTermMilestones: []
       }
@@ -175,6 +175,84 @@ function getUploadedPath(files, fieldName) {
   const match = (Array.isArray(files) ? files : []).find((file) => file.fieldname === fieldName);
   if (!match) return '';
   return `/uploads/${match.filename}`;
+}
+
+function getUploadedPaths(files, fieldName) {
+  return (Array.isArray(files) ? files : [])
+    .filter((file) => file.fieldname === fieldName)
+    .map((file) => `/uploads/${file.filename}`);
+}
+
+function uniqueList(values = []) {
+  const seen = new Set();
+  return values
+    .map((value) => cleanText(value))
+    .filter(Boolean)
+    .filter((value) => {
+      if (seen.has(value)) return false;
+      seen.add(value);
+      return true;
+    });
+}
+
+function normalizeStringList(value) {
+  if (Array.isArray(value)) return uniqueList(value);
+  return uniqueList(
+    String(value || '')
+      .split(/\r?\n|,/)
+      .map((item) => item.trim())
+  );
+}
+
+function normalizeBlogImages(value, fallbackTitle = '') {
+  const items = Array.isArray(value) ? value : [];
+  const seen = new Set();
+
+  return items
+    .map((image) => {
+      if (typeof image === 'string') {
+        return {
+          src: cleanText(image),
+          alt: fallbackTitle,
+          caption: ''
+        };
+      }
+
+      return {
+        src: cleanText(image?.src || image?.url || image?.imageUrl),
+        alt: cleanText(image?.alt || fallbackTitle),
+        caption: cleanText(image?.caption)
+      };
+    })
+    .filter((image) => {
+      if (!image.src || seen.has(image.src)) return false;
+      seen.add(image.src);
+      return true;
+    });
+}
+
+function normalizeBlogSections(value) {
+  if (!Array.isArray(value)) return [];
+
+  return value
+    .map((section) => {
+      if (section?.type === 'quote') {
+        return {
+          type: 'quote',
+          quote: preserveText(section.quote)
+        };
+      }
+
+      return {
+        heading: cleanText(section?.heading),
+        paragraphs: Array.isArray(section?.paragraphs)
+          ? section.paragraphs.map((paragraph) => preserveText(paragraph)).filter(hasText)
+          : [],
+        imageIndex: Number.isInteger(section?.imageIndex) ? section.imageIndex : undefined,
+        imagePosition: cleanText(section?.imagePosition || 'right')
+      };
+    })
+    .filter((section) => section.type === 'quote' ? hasText(section.quote) : section.heading || section.paragraphs.length);
 }
 function cleanMultilineText(value = '') {
   return preserveText(value);
@@ -371,26 +449,58 @@ const projects = (Array.isArray(projectsInput) ? projectsInput : [])
 
     const blogPosts = (Array.isArray(blogPostsInput) ? blogPostsInput : [])
       .map((item, index) => {
+        const title = cleanText(item?.title);
         const body = cleanMultilineText(item?.body);
         const excerpt = cleanText(item?.excerpt) || stripHtml(body).slice(0, 180);
+        const uploadedFeaturedImage = getUploadedPath(files, `blogPosts_imageFile_${index}`);
+        const imageUrl = uploadedFeaturedImage || cleanText(item?.imageUrl);
+        const uploadedAdditionalImages = getUploadedPaths(files, `blogPosts_imageFiles_${index}`);
+        const imageUrls = uniqueList([
+          imageUrl,
+          ...normalizeStringList(item?.imageUrls),
+          ...uploadedAdditionalImages
+        ]);
+
+        const existingImages = normalizeBlogImages(item?.images, title);
+        const imagesBySrc = new Map(existingImages.map((image) => [image.src, image]));
+        imageUrls.forEach((src) => {
+          if (!imagesBySrc.has(src)) {
+            imagesBySrc.set(src, {
+              src,
+              alt: title || 'Blog image',
+              caption: ''
+            });
+          }
+        });
 
         return {
-          title: cleanText(item?.title),
-          slug: buildUniqueSlug(cleanText(item?.title) || `post-${index + 1}`, usedSlugs),
+          title,
+          slug: buildUniqueSlug(title || `post-${index + 1}`, usedSlugs),
           author: cleanText(item?.author) || updatedSite.ownerName,
           category: cleanText(item?.category),
           publishDate: cleanText(item?.publishDate),
+          readTime: cleanText(item?.readTime),
           excerpt,
           body,
-          imageUrl:
-            getUploadedPath(files, `blogPosts_imageFile_${index}`) ||
-            cleanText(item?.imageUrl),
+          imageUrl,
+          imageUrls,
+          images: Array.from(imagesBySrc.values()),
+          sections: normalizeBlogSections(item?.sections),
+          sourcePdfUrl: cleanText(item?.sourcePdfUrl),
           videoUrl:
             getUploadedPath(files, `blogPosts_videoFile_${index}`) ||
             cleanText(item?.videoUrl)
         };
       })
-      .filter((item) => item.title || item.excerpt || item.body || item.imageUrl || item.videoUrl);
+      .filter((item) =>
+        item.title ||
+        item.excerpt ||
+        item.body ||
+        item.imageUrl ||
+        item.imageUrls.length ||
+        item.videoUrl ||
+        item.sections.length
+      );
 
     const weeksInput = parseJsonField(req.body.weeksJson, current.weeks);
     const weeks = (Array.isArray(weeksInput) ? weeksInput : [])
@@ -428,10 +538,10 @@ const projects = (Array.isArray(projectsInput) ? projectsInput : [])
       jobOutlook: cleanMultilineText(req.body.careerJobOutlook),
       requiredQualifications: cleanListFromTextarea(req.body.careerRequiredQualifications),
       potentialEmployers: cleanListFromTextarea(req.body.careerPotentialEmployers),
-      shortTermTitle: cleanText(req.body.careerShortTermTitle) || 'Short-Term Career Plan (1–3 Years)',
+      shortTermTitle: cleanText(req.body.careerShortTermTitle) || 'Short-Term Career Plan (1-3 Years)',
       shortTermText: cleanMultilineText(req.body.careerShortTermText),
       shortTermMilestones: cleanListFromTextarea(req.body.careerShortTermMilestones),
-      longTermTitle: cleanText(req.body.careerLongTermTitle) || 'Long-Term Career Plan (5–10 Years)',
+      longTermTitle: cleanText(req.body.careerLongTermTitle) || 'Long-Term Career Plan (5-10 Years)',
       longTermText: cleanMultilineText(req.body.careerLongTermText),
       longTermMilestones: cleanListFromTextarea(req.body.careerLongTermMilestones)
     };

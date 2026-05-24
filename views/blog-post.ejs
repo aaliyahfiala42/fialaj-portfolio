@@ -2,50 +2,130 @@
 
 <%- include('partials/navbar', { content, pageType: 'blog' }) %>
 
-    <main>
-      <section class="section">
-        <div class="container">
-          <article class="glass-panel hover-card blog-card">
-            <p class="eyebrow">Blog Post</p>
-            <h1><%= post.title %></h1>
-            
-            <p class="muted">
-              <%= post.publishDate || 'Draft' %>
-              <% if (post.author) { %> • <%= post.author %><% } %>
-              <% if (post.category) { %> • <%= post.category %><% } %>
-            </p>
+<%
+  function normalizeImageRecord(value, fallbackAlt) {
+    if (!value) return null;
+    if (typeof value === 'string') {
+      return { src: value, alt: fallbackAlt || post.title || 'Blog image', caption: '' };
+    }
+    const src = value.src || value.url || value.imageUrl || '';
+    if (!src) return null;
+    return {
+      src,
+      alt: value.alt || fallbackAlt || post.title || 'Blog image',
+      caption: value.caption || ''
+    };
+  }
 
+  const imageCandidates = [];
+  if (post.imageUrl) imageCandidates.push({ src: post.imageUrl, alt: post.title, caption: '' });
+  if (Array.isArray(post.images)) imageCandidates.push(...post.images);
+  if (Array.isArray(post.imageUrls)) imageCandidates.push(...post.imageUrls);
+  if (typeof post.imageUrls === 'string') {
+    imageCandidates.push(...post.imageUrls.split(/\r?\n|,/).map((item) => item.trim()).filter(Boolean));
+  }
 
-            <% if (post.imageUrl) { %>
-                <div class="blogmedia">
-                    <img src="<%= post.imageUrl %>" alt="<%= post.title %>" class="blog-post-media" />
-                </div>
-            <% } %>
+  const seenBlogImages = new Set();
+  const postImages = imageCandidates
+    .map((item) => normalizeImageRecord(item, post.title))
+    .filter((item) => {
+      if (!item || seenBlogImages.has(item.src)) return false;
+      seenBlogImages.add(item.src);
+      return true;
+    });
 
+  const hasStructuredSections = Array.isArray(post.sections) && post.sections.length > 0;
+%>
 
+<main>
+  <section class="section blog-post-section">
+    <div class="container blog-post-container">
+      <article class="glass-panel hover-card blog-card blog-post-card">
+        <header class="blog-post-hero">
+          <p class="eyebrow"><%= post.category || 'Blog Post' %></p>
+          <h1><%= post.title %></h1>
 
+          <p class="muted blog-post-meta">
+            <% if (post.author) { %><span><%= post.author %></span><% } %>
+            <% if (post.publishDate) { %><span><%= post.publishDate %></span><% } else { %><span>Draft</span><% } %>
+            <% if (post.readTime) { %><span><%= post.readTime %></span><% } %>
+          </p>
 
-            <% if (post.body) { %>
-              <div class="section-copy rich-text"><%- post.body %></div>
-            <% } else if (post.excerpt) { %>
-              <div class="section-copy rich-text"><%= post.excerpt %></div>
-            <% } %>
+          <% if (post.excerpt) { %>
+            <p class="blog-post-dek"><%= post.excerpt %></p>
+          <% } %>
+        </header>
 
-            <% if (post.videoUrl) { %>
-                                <div class="blogmedia">
+        <% if (hasStructuredSections) { %>
+          <div class="blog-section-stack">
+            <% post.sections.forEach((section) => { %>
+              <% if (section.type === 'quote') { %>
+                <blockquote class="blog-quote"><%= section.quote %></blockquote>
+              <% } else { %>
+                <section class="blog-section-block <%= Number.isInteger(section.imageIndex) ? 'has-media image-' + (section.imagePosition || 'right') : '' %>">
+                  <% const sectionImage = Number.isInteger(section.imageIndex) ? postImages[section.imageIndex] : null; %>
+                  <% if (sectionImage && section.imagePosition === 'top') { %>
+                    <figure class="blog-inline-media">
+                      <button type="button" class="blog-image-button" data-blog-image="<%= sectionImage.src %>" aria-label="View image larger">
+                        <img src="<%= sectionImage.src %>" alt="<%= sectionImage.alt %>" loading="lazy" />
+                      </button>
+                    </figure>
+                  <% } %>
 
-              <video class="blog-post-media" controls playsinline>
-                <source src="<%= post.videoUrl %>" type="video/mp4" />
-              </video>
-                              </div>
+                  <div class="blog-section-copy">
+                    <% if (section.heading) { %><h2><%= section.heading %></h2><% } %>
+                    <% (section.paragraphs || []).forEach((paragraph) => { %>
+                      <p><%= paragraph %></p>
+                    <% }); %>
+                  </div>
 
-            <% } %>
+                  <% if (sectionImage && section.imagePosition !== 'top') { %>
+                    <figure class="blog-inline-media">
+                      <button type="button" class="blog-image-button" data-blog-image="<%= sectionImage.src %>" aria-label="View image larger">
+                        <img src="<%= sectionImage.src %>" alt="<%= sectionImage.alt %>" loading="lazy" />
+                      </button>
+                    </figure>
+                  <% } %>
+                </section>
+              <% } %>
+            <% }); %>
+          </div>
+        <% } else { %>
+          <% if (postImages.length) { %>
+            <section class="blog-image-gallery" aria-label="Blog post images">
+              <% postImages.forEach((image, index) => { %>
+                <figure class="blog-gallery-item <%= index === 0 ? 'is-featured' : '' %>">
+                  <button type="button" class="blog-image-button" data-blog-image="<%= image.src %>" aria-label="View image larger">
+                    <img src="<%= image.src %>" alt="<%= image.alt %>" loading="lazy" />
+                  </button>
+                </figure>
+              <% }); %>
+            </section>
+          <% } %>
 
+          <% if (post.body) { %>
+            <div class="section-copy rich-text blog-rich-text"><%- post.body %></div>
+          <% } else if (post.excerpt) { %>
+            <div class="section-copy rich-text blog-rich-text"><%= post.excerpt %></div>
+          <% } %>
+        <% } %>
 
-          </article>
-        </div>
-      </section>
-    </main>
+        <% if (post.videoUrl) { %>
+          <div class="blogmedia blog-video-wrap">
+            <video class="blog-post-media" controls playsinline>
+              <source src="<%= post.videoUrl %>" type="video/mp4" />
+            </video>
+          </div>
+        <% } %>
+      </article>
+    </div>
+  </section>
+</main>
+
+<div class="blog-lightbox" id="blogLightbox" aria-hidden="true">
+  <button type="button" class="blog-lightbox-close" aria-label="Close image preview">×</button>
+  <img src="" alt="Expanded blog image" />
+</div>
 
 <%- include('partials/footer', { content, isAdmin }) %>
 
@@ -54,7 +134,7 @@
   (() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    document.querySelectorAll('.blog-card, .blog-post-media, .section-heading').forEach((element, index) => {
+    document.querySelectorAll('.blog-post-card, .blog-section-block, .blog-inline-media, .blog-gallery-item, .blog-quote').forEach((element, index) => {
       element.setAttribute('data-aos', index === 0 ? 'fade-up' : 'zoom-in');
       element.setAttribute('data-aos-delay', String(Math.min(index * 80, 300)));
     });
@@ -66,6 +146,37 @@
       once: true,
       mirror: false,
       disable: prefersReducedMotion
+    });
+
+    const lightbox = document.getElementById('blogLightbox');
+    const lightboxImage = lightbox ? lightbox.querySelector('img') : null;
+    const closeButton = lightbox ? lightbox.querySelector('.blog-lightbox-close') : null;
+
+    function closeLightbox() {
+      if (!lightbox || !lightboxImage) return;
+      lightbox.classList.remove('is-open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      lightboxImage.src = '';
+      document.body.classList.remove('blog-lightbox-lock');
+    }
+
+    document.querySelectorAll('[data-blog-image]').forEach((button) => {
+      button.addEventListener('click', () => {
+        if (!lightbox || !lightboxImage) return;
+        lightboxImage.src = button.dataset.blogImage;
+        lightboxImage.alt = button.querySelector('img')?.alt || 'Expanded blog image';
+        lightbox.classList.add('is-open');
+        lightbox.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('blog-lightbox-lock');
+      });
+    });
+
+    closeButton?.addEventListener('click', closeLightbox);
+    lightbox?.addEventListener('click', (event) => {
+      if (event.target === lightbox) closeLightbox();
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') closeLightbox();
     });
   })();
 </script>

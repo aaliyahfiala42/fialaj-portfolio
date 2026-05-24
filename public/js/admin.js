@@ -154,12 +154,34 @@ projects: {
         { key: 'publishDate', label: 'Publish Date', type: 'date' },
         { key: 'excerpt', label: 'Card Excerpt', type: 'textarea' },
         {
+          key: 'imageUrl',
+          label: 'Featured Image URL',
+          type: 'text',
+          placeholder: '/uploads/example-featured-image.jpg'
+        },
+        {
           key: 'imageFile',
-          label: 'Upload Photo',
+          label: 'Upload Featured Photo',
           type: 'file',
           accept: 'image/*',
           previewKey: 'imageUrl',
-          previewLabel: 'Open current photo',
+          previewLabel: 'Open current featured photo',
+          previewType: 'image'
+        },
+        {
+          key: 'imageUrls',
+          label: 'All Blog Image URLs (one per line)',
+          type: 'textarea',
+          serializeAsList: true
+        },
+        {
+          key: 'imageFiles',
+          label: 'Upload Additional Blog Photos',
+          type: 'file',
+          accept: 'image/*',
+          multiple: true,
+          previewKey: 'imageUrls',
+          previewLabel: 'Current blog photos',
           previewType: 'image'
         },
         {
@@ -201,9 +223,15 @@ projects: {
   }
 
   function renderFilePreview(field, currentValue, item) {
-    if (!currentValue) return '';
+    const values = Array.isArray(currentValue)
+      ? currentValue.filter(Boolean)
+      : String(currentValue || '')
+          .split(/\r?\n|,/)
+          .map((value) => value.trim())
+          .filter(Boolean);
 
-    const safeUrl = escapeHtml(currentValue);
+    if (!values.length) return '';
+
     const safeAlt = escapeHtml(
       item.organization ||
         item.title ||
@@ -213,21 +241,35 @@ projects: {
     );
 
     if (field.previewType === 'image') {
+      const images = values
+        .map((value) => {
+          const safeUrl = escapeHtml(value);
+          return `
+            <a class="admin-file-preview-tile" href="${safeUrl}" target="_blank" rel="noreferrer">
+              <img src="${safeUrl}" alt="${safeAlt}" class="admin-logo-preview" />
+            </a>
+          `;
+        })
+        .join('');
+
       return `
-        <div class="admin-file-preview">
-          <img src="${safeUrl}" alt="${safeAlt}" class="admin-logo-preview" />
-          <a class="text-link" href="${safeUrl}" target="_blank" rel="noreferrer">
-            ${field.previewLabel || 'Open current image'}
-          </a>
+        <div class="admin-file-preview admin-file-preview-grid">
+          ${images}
+          <small>${field.previewLabel || 'Open current image'}</small>
         </div>
       `;
     }
 
-    return `
-      <a class="text-link" href="${safeUrl}" target="_blank" rel="noreferrer">
-        ${field.previewLabel || 'Open current file'}
-      </a>
-    `;
+    return values
+      .map((value) => {
+        const safeUrl = escapeHtml(value);
+        return `
+          <a class="text-link" href="${safeUrl}" target="_blank" rel="noreferrer">
+            ${field.previewLabel || 'Open current file'}
+          </a>
+        `;
+      })
+      .join('');
   }
 
   function renderFieldMarkup(group, field, item, index) {
@@ -243,7 +285,7 @@ projects: {
         <label style="grid-column: 1 / -1;">
           <span>${field.label}</span>
           ${renderFilePreview(field, currentValue, item)}
-          <input type="file" name="${group}_${field.key}_${index}" accept="${field.accept || '*/*'}" />
+          <input type="file" name="${group}_${field.key}_${index}" accept="${field.accept || '*/*'}" ${field.multiple ? 'multiple' : ''} />
         </label>
       `;
     }
