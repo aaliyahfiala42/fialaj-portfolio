@@ -196,7 +196,7 @@
     {
       "organization": "Lower Columbia College Rotaract Club",
       "role": "Member / Secretary",
-      "dates": "2022 – 2025",
+      "dates": "2022 – 2024",
       "description": "Supported service projects, student leadership, and community outreach efforts.",
       "logoUrl": "/uploads/1777146906494-rotaractlogo.png"
     },
@@ -310,6 +310,16 @@
       "phone": "(360) 442-2716",
       "linkedinUrl": "",
       "notes": "Mark Gaither was my advisor and instructor during my associate degree program at Lower Columbia College. His mentorship was instrumental in shaping my academic and professional path."
+    },
+    {
+      "name": "Kathryn Harlan",
+      "organization": "Lower Columbia College",
+      "role": "Advisor & Instructor",
+      "connection": "Instructor and academic advisor",
+      "email": "kharlan@lowercolumbia.edu",
+      "phone": "360-442-2626",
+      "linkedinUrl": "",
+      "notes": ""
     }
   ],
   "recommendationLetters": [
@@ -326,15 +336,22 @@
       "relationship": "Advisor for Washington State Opportunity Scholarship",
       "description": "",
       "pdfUrl": "/uploads/1777940395974-letter-of-recommendation-2.pdf"
+    },
+    {
+      "title": "Recommendation Letter",
+      "recommenderName": "Kathryn Harlan",
+      "relationship": "",
+      "description": "",
+      "pdfUrl": "/uploads/1779573023997-kat-recommendation-letter.pdf"
     }
   ],
   "blogPosts": [
     {
-      "title": "",
-      "slug": "post-1",
+      "title": "My Experience in the LCC BAS-OLTM Program",
+      "slug": "my-experience-in-the-lcc-bas-oltm-program",
       "author": "Jennifer Fiala",
       "category": "",
-      "publishDate": "",
+      "publishDate": "2026-05-23",
       "excerpt": "",
       "body": "\n",
       "imageUrl": "",
@@ -365,17 +382,18 @@
       "Adaptability",
       "Emotional Intelligence",
       "Strategic Decision-Making",
-      "Integrity",
       "Resilience"
     ],
     "experience": [
       "Mentoring Scholars",
       "LCC Group Projects",
       "Restaurant Manager",
-      "Volunteer Work"
+      "Volunteer Work",
+      "Business Entrepreneurship"
     ]
   },
   "awards": [
-    "#1 Mom Award"
+    "President's List",
+    "Fall 2022 - Spring 2026"
   ]
 }
